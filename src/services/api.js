@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
-    // baseURL: 'https://api.gsps.online/api',
+    // baseURL: 'http://localhost:5000/api',
+    baseURL: 'https://api.gsps.online/api',
     headers: {
         'Content-Type': 'application/json'
     }

@@ -105,6 +105,7 @@ const FeeApplicationManagement = () => {
                         <option value="">Filter: All Status</option>
                         <option value="Pending">Pending</option>
                         <option value="Approved">Approved</option>
+                        <option value="Pending Verification">Pending Verification</option>
                         <option value="Completed">Completed</option>
                         <option value="Rejected">Rejected</option>
                     </select>
@@ -150,7 +151,8 @@ const FeeApplicationManagement = () => {
                                         <td className="px-8 py-6">
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest ${app.status === 'Pending' ? 'bg-orange-500' :
                                                 app.status === 'Approved' ? 'bg-blue-500' :
-                                                    app.status === 'Completed' ? 'bg-green-500' : 'bg-red-500'
+                                                    app.status === 'Pending Verification' ? 'bg-purple-600' :
+                                                        app.status === 'Completed' ? 'bg-green-500' : 'bg-red-500'
                                                 }`}>
                                                 {app.status}
                                             </span>
@@ -159,10 +161,12 @@ const FeeApplicationManagement = () => {
                                             {app.status === 'Pending' && (
                                                 <button onClick={() => setSelectedApp({ ...app, action: 'Approve' })} className="px-3 py-2 bg-blue-100 text-blue-600 rounded-lg font-black text-[10px] uppercase hover:bg-blue-600 hover:text-white transition-all">Approve</button>
                                             )}
-                                            {(app.status === 'Pending' || app.status === 'Approved') && (
+                                            {(app.status === 'Pending' || app.status === 'Approved' || app.status === 'Pending Verification') && (
                                                 <>
                                                     <button onClick={() => setSelectedApp({ ...app, action: 'Reject' })} className="px-3 py-2 bg-red-100 text-red-600 rounded-lg font-black text-[10px] uppercase hover:bg-red-600 hover:text-white transition-all">Reject</button>
-                                                    <button onClick={() => setSelectedApp({ ...app, action: 'Complete' })} className="px-3 py-2 bg-green-100 text-green-600 rounded-lg font-black text-[10px] uppercase hover:bg-green-600 hover:text-white transition-all">Complete</button>
+                                                    <button onClick={() => setSelectedApp({ ...app, action: 'Complete' })} className="px-3 py-2 bg-green-100 text-green-600 rounded-lg font-black text-[10px] uppercase hover:bg-green-600 hover:text-white transition-all">
+                                                        {app.status === 'Pending Verification' ? 'Verify & Complete' : 'Complete'}
+                                                    </button>
                                                 </>
                                             )}
                                         </td>
@@ -200,17 +204,43 @@ const FeeApplicationManagement = () => {
                                 </div>
                             )}
 
-                            {selectedApp.action === 'Complete' && (
+                             {selectedApp.action === 'Complete' && (
                                 <div className="space-y-4">
+                                    {selectedApp.payment && (
+                                        <div className="bg-gsps-bg-light p-6 rounded-2xl space-y-4 border border-gray-100 shadow-inner">
+                                            <h3 className="font-black text-gsps-blue uppercase tracking-widest text-xs">Payment Details</h3>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest">Transaction ID</p>
+                                                    <p className="font-bold text-gsps-blue text-xs break-all font-mono">{selectedApp.payment.transactionId || 'N/A'}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest">Amount Paid</p>
+                                                    <p className="font-bold text-gsps-blue">{selectedApp.payment.amount} {selectedApp.payment.currency}</p>
+                                                </div>
+                                            </div>
+                                            {selectedApp.payment.screenshot && (
+                                                <div>
+                                                    <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest mb-2">Payment Screenshot</p>
+                                                    <a href={selectedApp.payment.screenshot} target="_blank" rel="noreferrer">
+                                                        <img src={selectedApp.payment.screenshot} alt="Screenshot" className="w-full h-40 object-cover rounded-xl border border-gray-200 hover:opacity-80 transition-all" />
+                                                    </a>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                     <div className="space-y-2">
                                         <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Final Payment Amount (GBP)</label>
-                                        <input type="number" value={finalAmount} onChange={(e) => setFinalAmount(e.target.value)} required placeholder="0.00" className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue shadow-inner" />
+                                        <input type="number" value={finalAmount || (selectedApp.payment?.amount || '')} onChange={(e) => setFinalAmount(e.target.value)} required placeholder="0.00" className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue shadow-inner" />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Upload Invoice (PDF/Image)</label>
-                                        <input required type="file" onChange={(e) => setInvoice(e.target.files[0])} className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue" />
+                                        <input required={!selectedApp.payment} type="file" onChange={(e) => setInvoice(e.target.files[0])} className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue" />
+                                        {selectedApp.payment && <p className="text-[10px] text-gsps-blue/40 font-bold ml-1 italic">* Optional: You can upload a formal invoice or use the user's screenshot.</p>}
                                     </div>
-                                    <button onClick={() => handleAction('Completed')} disabled={processing || !finalAmount || !invoice} className="w-full bg-green-600 text-white py-4 rounded-2xl font-black hover:bg-green-700 transition-all disabled:opacity-50">Mark as Completed</button>
+                                    <button onClick={() => handleAction('Completed')} disabled={processing || !finalAmount} className="w-full bg-green-600 text-white py-4 rounded-2xl font-black hover:bg-green-700 transition-all disabled:opacity-50">
+                                        {selectedApp.status === 'Pending Verification' ? 'Verify & Mark Completed' : 'Mark as Completed'}
+                                    </button>
                                 </div>
                             )}
                         </div>

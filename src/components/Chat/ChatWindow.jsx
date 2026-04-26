@@ -32,14 +32,14 @@ const ChatWindow = ({ user, room, receiverId, onClose }) => {
         if (!socket.connected) socket.connect();
 
         const onConnect = () => socket.emit('join_room', room);
-        
+
         const handleReceiveMessage = (message) => {
             if (message.room === room) {
                 setMessages((prev) => {
                     if (prev.find(m => m._id === message._id)) return prev;
                     return [...prev, message];
                 });
-                
+
                 // If message is from someone else, play sound and mark as read
                 const senderId = typeof message.sender === 'object' ? message.sender._id : message.sender;
                 if (senderId !== user._id) {
@@ -77,15 +77,15 @@ const ChatWindow = ({ user, room, receiverId, onClose }) => {
     }, [messages]);
 
     const sendMessage = (e) => {
- e.preventDefault();
-       if (newMessage.trim()) {
+        e.preventDefault();
+        if (newMessage.trim()) {
             const messageData = {
                 senderId: user._id,
                 receiverId: receiverId,
                 message: newMessage,
                 room: room
             };
-           
+
             socket.emit('send_message', messageData);
             setNewMessage('');
         }
@@ -104,10 +104,11 @@ const ChatWindow = ({ user, room, receiverId, onClose }) => {
                             {user.role === 'admin' ? 'Student Support' : 'Admin Support'}
                         </h3>
                         <div className="flex items-center gap-1">
-                            <span className={`w-2 h-2 rounded-full ${onlineUsers.has(receiverId) ? 'bg-green-400' : 'bg-gray-400'}`}></span>
-                            <p className="text-[10px] text-indigo-100 uppercase tracking-tighter">
+                            <span className={`w-2 h-2 rounded-full ${onlineUsers.has(receiverId) ? 'bg-green-400' : 'bg-green-400'}`}></span>
+                            {/* <p className="text-[10px] text-indigo-100 uppercase tracking-tighter">
                                 {onlineUsers.has(receiverId) ? 'Online' : 'Offline'}
-                            </p>
+                            </p> */}
+                            Online
                         </div>
                     </div>
                 </div>
@@ -134,11 +135,10 @@ const ChatWindow = ({ user, room, receiverId, onClose }) => {
                         const isMine = (typeof msg.sender === 'object' ? msg.sender._id : msg.sender) === user._id;
                         return (
                             <div key={index} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow-sm ${
-                                    isMine 
-                                    ? 'bg-indigo-600 text-white rounded-br-none' 
+                                <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow-sm ${isMine
+                                    ? 'bg-indigo-600 text-white rounded-br-none'
                                     : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none'
-                                }`}>
+                                    }`}>
                                     <p>{msg.message}</p>
                                     <div className="flex items-center justify-between mt-1 gap-2">
                                         <span className={`text-[10px] block ${isMine ? 'text-indigo-200' : 'text-gray-400'}`}>

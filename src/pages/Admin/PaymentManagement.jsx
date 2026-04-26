@@ -59,8 +59,8 @@ const PaymentManagement = () => {
 
             <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         placeholder="Search by name, email or txn ID..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -68,9 +68,9 @@ const PaymentManagement = () => {
                     />
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
                 </div>
-                
+
                 <div className="w-full md:w-auto">
-                    <select 
+                    <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
                         className="w-full md:w-48 px-4 py-4 rounded-[10px] border border-gray-100 font-bold text-sm outline-none bg-white shadow-sm"
@@ -78,6 +78,7 @@ const PaymentManagement = () => {
                         <option value="">All Statuses</option>
                         <option value="Pending">Pending</option>
                         <option value="Processing">Processing</option>
+                        <option value="Pending Verification">Pending Verification</option>
                         <option value="Completed">Completed</option>
                         <option value="Rejected">Rejected</option>
                     </select>
@@ -104,13 +105,13 @@ const PaymentManagement = () => {
                                     <p className="text-[10px] font-bold text-gsps-blue/40">{p.user?.email}</p>
                                 </td>
                                 <td className="px-8 py-6 font-bold text-sm text-gsps-blue/60">{p.paymentType}</td>
-                                <td className="px-8 py-6 font-black text-gsps-blue">{p.amount} {p.currency}</td>
+                                <td className="px-8 py-6 font-black text-gsps-blue">{p.amount} </td>
                                 <td className="px-8 py-6">
-                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${
-                                        p.status === 'Completed' ? 'bg-green-500 text-white' : 
-                                        p.status === 'Processing' ? 'bg-gsps-blue text-white' : 
-                                        p.status === 'Pending' ? 'bg-orange-500 text-white' : 'bg-red-500 text-white'
-                                    }`}>{p.status}</span>
+                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${p.status === 'Completed' ? 'bg-green-500 text-white' :
+                                        p.status === 'Processing' ? 'bg-gsps-blue text-white' :
+                                            p.status === 'Pending Verification' ? 'bg-purple-600 text-white' :
+                                                p.status === 'Pending' ? 'bg-orange-500 text-white' : 'bg-red-500 text-white'
+                                        }`}>{p.status}</span>
                                 </td>
                                 <td className="px-8 py-6 text-right">
                                     <button onClick={() => openDetails(p)} className="text-gsps-green font-black hover:underline text-sm uppercase tracking-widest">Update</button>
@@ -125,7 +126,7 @@ const PaymentManagement = () => {
             {selectedPayment && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-gsps-blue/80 backdrop-blur-md" onClick={() => setSelectedPayment(null)}></div>
-                    <div className="relative bg-white w-full max-w-2xl rounded-[50px] shadow-2xl p-10 md:p-12 overflow-hidden">
+                    <div className="relative bg-white w-full max-w-2xl rounded-[10px] shadow-2xl p-10 md:p-12 overflow-hidden">
                         <div className="space-y-10">
                             <div className="flex justify-between items-center">
                                 <h2 className="text-3xl font-black text-gsps-blue">Process Payment</h2>
@@ -135,23 +136,24 @@ const PaymentManagement = () => {
                             <div className="bg-gsps-bg-light p-6 rounded-3xl flex items-center justify-between">
                                 <div>
                                     <p className="text-[10px] opacity-40 uppercase font-black">Request Details</p>
-                                    <p className="font-black text-gsps-blue">{selectedPayment.paymentType} - {selectedPayment.amount} {selectedPayment.currency}</p>
+                                    <p className="font-black text-gsps-blue">{selectedPayment.paymentType} - {selectedPayment.amount} </p>
                                 </div>
                                 {selectedPayment.invoiceDocument && (
-                                    <a href={`http://localhost:5000/${selectedPayment.invoiceDocument}`} target="_blank" rel="noreferrer" className="bg-gsps-green text-white px-6 py-3 rounded-2xl font-bold text-xs">View Invoice</a>
+                                    <a href={`${selectedPayment.invoiceDocument}`} target="_blank" rel="noreferrer" className="bg-gsps-green text-white px-6 py-3 rounded-2xl font-bold text-xs">View Invoice</a>
                                 )}
                             </div>
 
                             <div className="space-y-6">
                                 <div className="space-y-2">
                                     <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Status Update</label>
-                                    <select 
-                                        value={editData.status} 
-                                        onChange={(e) => setEditData({...editData, status: e.target.value})}
+                                    <select
+                                        value={editData.status}
+                                        onChange={(e) => setEditData({ ...editData, status: e.target.value })}
                                         className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light outline-none font-bold text-gsps-blue"
                                     >
                                         <option>Pending</option>
                                         <option>Processing</option>
+                                        <option>Pending Verification</option>
                                         <option>Completed</option>
                                         <option>Rejected</option>
                                     </select>
@@ -159,19 +161,19 @@ const PaymentManagement = () => {
 
                                 <div className="space-y-2">
                                     <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Savings for Student (USD)</label>
-                                    <input 
-                                        type="number" 
-                                        value={editData.savingsAmount} 
-                                        onChange={(e) => setEditData({...editData, savingsAmount: e.target.value})}
+                                    <input
+                                        type="number"
+                                        value={editData.savingsAmount}
+                                        onChange={(e) => setEditData({ ...editData, savingsAmount: e.target.value })}
                                         className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light outline-none font-bold text-gsps-blue"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
                                     <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Internal Note</label>
-                                    <textarea 
+                                    <textarea
                                         value={editData.adminNote}
-                                        onChange={(e) => setEditData({...editData, adminNote: e.target.value})}
+                                        onChange={(e) => setEditData({ ...editData, adminNote: e.target.value })}
                                         className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light outline-none font-bold text-gsps-blue"
                                     ></textarea>
                                 </div>
