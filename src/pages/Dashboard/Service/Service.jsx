@@ -253,7 +253,7 @@ const Service = () => {
                     </div>
                 </div>
                 <a
-                    href="https://t.me/gsps_support"
+                    href="https://t.me/GSPS26"
                     target="_blank"
                     rel="noreferrer"
                     className="bg-gsps-green text-white px-10 py-4 rounded-2xl font-black text-lg hover:bg-white hover:text-gsps-blue transition-all shadow-xl flex items-center gap-2"
@@ -291,7 +291,7 @@ const Service = () => {
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
                                     <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Important Documents</label>
-                                    <textarea name="portalAccess" value={formData.portalAccess} onChange={handleChange} required rows="3" placeholder="Please provide login credentials for the portal" className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue shadow-inner"></textarea>
+                                    <textarea name="portalAccess" value={formData.portalAccess} onChange={handleChange} required rows="3" placeholder="Nessity Documents if not then type just a Word" className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue shadow-inner"></textarea>
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
                                     <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1"> Amount</label>

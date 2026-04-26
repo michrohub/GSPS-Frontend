@@ -107,7 +107,7 @@ const Footer = () => {
           <div className="flex items-center space-x-6 text-xs font-bold uppercase tracking-widest text-blue-100/40">
             <span className="flex items-center">
               <span className="w-2 h-2 rounded-full bg-gsps-green mr-2 animate-pulse"></span>
-              System Status: Operational
+              GSPS-Global Students Payment Service
             </span>
           </div>
         </div>

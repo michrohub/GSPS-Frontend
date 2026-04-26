@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { RiTelegram2Fill } from "react-icons/ri";
+
 
 const Support = () => {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -35,6 +37,12 @@ const Support = () => {
     { id: 6, title: "Refunds & Cancellations", icon: "🔄", count: "14 articles" },
   ];
 
+
+  const handleWhatsApp = (appId) => {
+    const message = `Hello GSPS Support, I need help with my Fee Application ID: ${appId}`;
+    window.open(`https://t.me/GSPS26?text=${encodeURIComponent(message)}`, '_blank');
+  };
+
   return (
     <div className="bg-white min-h-screen pt-4">
       {/* Hero Section */}
@@ -43,16 +51,16 @@ const Support = () => {
           <div className="lg:grid lg:grid-cols-2 lg:items-center gap-16">
             <div className="text-center lg:text-left">
               <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-gsps-blue mb-8 leading-[1.1]">
-                How Can We <br className="hidden sm:block" /> 
+                How Can We <br className="hidden sm:block" />
                 <span className="text-gsps-green">Help You</span> Today?
               </h1>
               <p className="text-xl text-gsps-blue/70 mb-10 max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed">
                 Search our knowledge base or browse help topics below to find the answers you need.
               </p>
-              
+
               <div className="relative max-w-xl group mx-auto lg:mx-0">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Ask a question..."
                   className="w-full px-6 py-5 rounded-[24px] bg-white border-2 border-transparent shadow-2xl focus:border-gsps-green/30 focus:outline-none transition-all placeholder:text-gray-400 pl-14 text-lg font-medium"
                 />
@@ -75,12 +83,12 @@ const Support = () => {
                 ))}
               </div>
             </div>
-            
+
             <div className="mt-16 lg:mt-0 relative hidden md:block max-w-md mx-auto lg:max-w-none">
               <div className="relative animate-float">
-                <img 
-                  src="/images/support-hero.png" 
-                  alt="Support Hero" 
+                <img
+                  src="/images/support-hero.png"
+                  alt="Support Hero"
                   className="w-full h-auto rounded-[60px] shadow-3xl"
                 />
                 {/* Decorative floating elements */}
@@ -102,8 +110,8 @@ const Support = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {categories.map((category) => (
-              <div 
-                key={category.id} 
+              <div
+                key={category.id}
                 className="p-10 rounded-[40px] border border-gray-100 bg-white hover:shadow-2xl hover:border-gsps-green/20 transition-all cursor-pointer group relative overflow-hidden"
               >
                 <div className="w-20 h-20 rounded-3xl bg-gsps-bg-light text-gsps-green flex items-center justify-center mb-10 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 text-4xl">
@@ -138,11 +146,11 @@ const Support = () => {
 
           <div className="space-y-6">
             {faqData.map((faq, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-gsps-blue/5 border border-white group"
               >
-                <button 
+                <button
                   onClick={() => setActiveFaq(activeFaq === index ? null : index)}
                   className="w-full flex justify-between items-center p-8 text-left focus:outline-none"
                 >
@@ -153,7 +161,7 @@ const Support = () => {
                     </svg>
                   </span>
                 </button>
-                <div 
+                <div
                   className={`px-8 overflow-hidden transition-all duration-500 ease-in-out ${activeFaq === index ? "max-h-[500px] pb-10 opacity-100" : "max-h-0 opacity-0"}`}
                 >
                   <p className="text-gsps-blue/70 text-lg font-medium leading-relaxed pt-6 border-t border-gray-100">
@@ -169,7 +177,7 @@ const Support = () => {
       {/* Contact Section */}
       <section className="py-32 bg-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gsps-blue/5 skew-x-12 translate-x-20 rounded-l-[100px]"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20">
             <h2 className="text-3xl md:text-6xl font-black text-gsps-blue mb-6">Still Need Help?</h2>
@@ -192,14 +200,13 @@ const Support = () => {
 
             <div className="p-12 rounded-[50px] bg-white border border-gray-100 text-center shadow-2xl hover:shadow-3xl transform hover:-translate-y-4 transition-all duration-500 group">
               <div className="w-20 h-20 bg-gsps-bg-light rounded-[24px] flex items-center justify-center mx-auto mb-10 group-hover:bg-gsps-blue group-hover:text-white group-hover:-rotate-12 transition-all">
-                <svg className="w-10 h-10 text-gsps-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
+                <RiTelegram2Fill className="text-[30px]" />
+
               </div>
-              <h3 className="text-3xl font-black text-gsps-blue mb-4">Email Us</h3>
+              <h3 className="text-3xl font-black text-gsps-blue mb-4">Telegram</h3>
               <p className="text-gsps-blue/50 mb-10 text-base font-medium">Send us a message and we'll reply within 2 working hours.</p>
-              <button className="w-full bg-gsps-blue text-white py-5 rounded-[20px] font-black text-lg hover:bg-opacity-90 transition-all shadow-2xl shadow-gsps-blue/20 active:scale-95">
-                Send Email
+              <button onClick={() => handleWhatsApp()} className="cursor-pointer w-full bg-gsps-blue text-white py-5 rounded-[20px] font-black text-lg hover:bg-opacity-90 transition-all shadow-2xl shadow-gsps-blue/20 active:scale-95">
+                Send Message
               </button>
             </div>
 

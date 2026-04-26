@@ -18,13 +18,13 @@ const PayNow = () => {
     <section className="py-24 bg-gsps-bg-light overflow-hidden relative">
       {/* Decorative blurred element */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-gsps-green/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Column: Content */}
           <div className="space-y-8 text-center lg:text-left">
             <h2 className="text-3xl md:text-[45px] font-black text-gsps-blue leading-tight">
-              Pay Now, <span className="text-gsps-green">Complete Later</span>
+              First Service, <span className="text-gsps-green">Then Pay</span>
             </h2>
             <p className="text-[16px] text-gray-500 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
               We understand that managing tuition can be stressful. Our flexible payment plans allow you to focus on your studies while we handle the rest.
@@ -52,10 +52,10 @@ const PayNow = () => {
 
           {/* Right Column: Comparison Card */}
           <div className="relative w-full max-w-lg mx-auto lg:ml-auto group">
-             {/* Main Card */}
+            {/* Main Card */}
             <div className="bg-white rounded-[40px] shadow-2xl p-8 sm:p-12 relative overflow-hidden border border-gray-100 transition-transform duration-500 group-hover:scale-[1.01]">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gsps-bg-light rounded-full -translate-y-16 translate-x-16 -z-0"></div>
-              
+
               <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-6">
                 {/* Traditional Bank */}
                 <div className="space-y-6">
@@ -85,7 +85,7 @@ const PayNow = () => {
                 </button>
               </div>
             </div>
-            
+
             {/* Background floating decor */}
             <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-gsps-green/10 rounded-full blur-[80px] -z-10"></div>
           </div>
