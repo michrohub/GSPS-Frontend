@@ -76,10 +76,14 @@ const Navber = () => {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center justify-center w-12 h-12 rounded-full bg-gsps-green/10 text-gsps-green font-black text-lg border-2 border-transparent hover:border-gsps-green/30 transition-all focus:outline-none focus:ring-2 focus:ring-gsps-green/50"
+                  className="flex items-center justify-center w-12 h-12 rounded-full bg-gsps-green/10 text-gsps-green font-black text-lg border-2 border-transparent hover:border-gsps-green/30 transition-all focus:outline-none focus:ring-2 focus:ring-gsps-green/50 overflow-hidden"
                   aria-expanded={dropdownOpen}
                 >
-                  {user.fullName?.charAt(0) || "U"}
+                  {user.profileImage ? (
+                    <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                  ) : (
+                    user.fullName?.charAt(0) || "U"
+                  )}
                 </button>
                 
                 {dropdownOpen && (

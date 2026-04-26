@@ -28,6 +28,10 @@ import Analytics from "../pages/Admin/Analytics.jsx";
 import LiveChat from "../pages/Admin/LiveChat.jsx";
 import FeeApplicationManagement from "../pages/Admin/FeeApplicationManagement.jsx";
 
+// New Pages
+import Terms from "../pages/Dashboard/Terms.jsx";
+import Profile from "../pages/Dashboard/Profile.jsx";
+
 // Protection
 import { ProtectedRoute, KYCProtectedRoute, AdminRoute } from "../components/Protection/ProtectedRoute.jsx";
 
@@ -97,6 +101,8 @@ const router = createBrowserRouter([
           </KYCProtectedRoute>
         )
       },
+      { path: "terms", element: <Terms /> },
+      { path: "profile", element: <Profile /> },
     ]
   },
 

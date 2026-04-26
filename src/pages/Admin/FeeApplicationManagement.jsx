@@ -11,7 +11,7 @@ const FeeApplicationManagement = () => {
     const [finalAmount, setFinalAmount] = useState('');
     const [invoice, setInvoice] = useState(null);
     const [processing, setProcessing] = useState(false);
-    
+
     // Fee Type Management
     const [feeTypes, setFeeTypes] = useState([]);
     const [showFeeTypeModal, setShowFeeTypeModal] = useState(false);
@@ -90,15 +90,15 @@ const FeeApplicationManagement = () => {
                     <h1 className="text-4xl font-black text-gsps-blue mb-2">Service <span className="text-gsps-green">Management</span></h1>
                     <p className="text-gsps-blue/40 font-bold uppercase tracking-widest text-sm">Review & process fee applications</p>
                 </div>
-                <button 
+                <button
                     onClick={() => setShowFeeTypeModal(true)}
                     className="bg-gsps-green text-white px-6 py-3 rounded-2xl font-black shadow-lg hover:bg-gsps-blue transition-all active:scale-95"
                 >
                     ⚙️ Manage Fee Types
                 </button>
                 <div className="relative group">
-                    <select 
-                        value={filter} 
+                    <select
+                        value={filter}
                         onChange={(e) => setFilter(e.target.value)}
                         className="appearance-none bg-white px-8 py-3 rounded-2xl border-2 border-gray-100 shadow-sm text-xs font-black text-gsps-blue uppercase tracking-widest outline-none focus:border-gsps-green/30 transition-all cursor-pointer pr-12"
                     >
@@ -114,7 +114,7 @@ const FeeApplicationManagement = () => {
                 </div>
             </header>
 
-           <div className="bg-white rounded-[10px] shadow-sm border border-gray-100 overflow-y-auto">
+            <div className="bg-white rounded-[10px] shadow-sm border border-gray-100 overflow-y-auto">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead className="bg-gsps-bg-light border-b border-gray-100">
@@ -148,11 +148,10 @@ const FeeApplicationManagement = () => {
                                             <p className="text-xs font-bold text-gsps-blue/60 bg-gray-100 p-2 rounded-lg max-w-[200px] break-words">{app.portalAccess}</p>
                                         </td>
                                         <td className="px-8 py-6">
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest ${
-                                                app.status === 'Pending' ? 'bg-orange-500' : 
-                                                app.status === 'Approved' ? 'bg-blue-500' : 
-                                                app.status === 'Completed' ? 'bg-green-500' : 'bg-red-500'
-                                            }`}>
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest ${app.status === 'Pending' ? 'bg-orange-500' :
+                                                app.status === 'Approved' ? 'bg-blue-500' :
+                                                    app.status === 'Completed' ? 'bg-green-500' : 'bg-red-500'
+                                                }`}>
                                                 {app.status}
                                             </span>
                                         </td>
@@ -178,7 +177,7 @@ const FeeApplicationManagement = () => {
             {/* Admin Action Modal */}
             {selectedApp && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gsps-blue/60 backdrop-blur-sm">
-                    <div className="bg-white w-full max-w-lg rounded-[40px] shadow-2xl overflow-hidden">
+                    <div className="bg-white w-full max-w-lg rounded-[10px] shadow-2xl overflow-hidden">
                         <div className="px-8 py-6 bg-gsps-blue text-white flex items-center justify-between">
                             <h2 className="text-2xl font-black">{selectedApp.action} <span className="text-gsps-green">Application</span></h2>
                             <button onClick={() => setSelectedApp(null)} className="text-white/60 hover:text-white text-2xl font-black">✕</button>
@@ -209,9 +208,9 @@ const FeeApplicationManagement = () => {
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Upload Invoice (PDF/Image)</label>
-                                        <input type="file" onChange={(e) => setInvoice(e.target.files[0])} className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue" />
+                                        <input required type="file" onChange={(e) => setInvoice(e.target.files[0])} className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue" />
                                     </div>
-                                    <button onClick={() => handleAction('Completed')} disabled={processing || !finalAmount} className="w-full bg-green-600 text-white py-4 rounded-2xl font-black hover:bg-green-700 transition-all disabled:opacity-50">Mark as Completed</button>
+                                    <button onClick={() => handleAction('Completed')} disabled={processing || !finalAmount || !invoice} className="w-full bg-green-600 text-white py-4 rounded-2xl font-black hover:bg-green-700 transition-all disabled:opacity-50">Mark as Completed</button>
                                 </div>
                             )}
                         </div>
@@ -221,28 +220,28 @@ const FeeApplicationManagement = () => {
             {/* Fee Type Management Modal */}
             {showFeeTypeModal && (
                 <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-gsps-blue/60 backdrop-blur-sm">
-                    <div className="bg-white w-full max-w-2xl rounded-[40px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+                    <div className="bg-white w-full max-w-2xl rounded-[10px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
                         <div className="px-8 py-6 bg-gsps-blue text-white flex items-center justify-between shrink-0">
                             <h2 className="text-2xl font-black">Manage <span className="text-gsps-green">Fee Types</span></h2>
                             <button onClick={() => setShowFeeTypeModal(false)} className="text-white/60 hover:text-white text-2xl font-black">✕</button>
                         </div>
-                        
-                        <div className="p-8 overflow-y-auto space-y-8">
+
+                        <div className="p-4 overflow-y-auto space-y-8">
                             {/* Create New Fee Type Form */}
-                            <form onSubmit={handleCreateFeeType} className="bg-gsps-bg-light p-6 rounded-3xl space-y-4">
+                            <form onSubmit={handleCreateFeeType} className="bg-gsps-bg-light p-6 rounded-[10px] space-y-4">
                                 <h3 className="font-black text-gsps-blue uppercase tracking-widest text-xs">Create New Type</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input 
-                                        type="text" 
-                                        placeholder="Name (e.g. Visa Fee)" 
+                                    <input
+                                        type="text"
+                                        placeholder="Name (e.g. Visa Fee)"
                                         value={newFeeType.name}
                                         onChange={(e) => setNewFeeType({ ...newFeeType, name: e.target.value })}
                                         required
                                         className="px-4 py-3 rounded-xl border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue"
                                     />
-                                    <input 
-                                        type="text" 
-                                        placeholder="Description (optional)" 
+                                    <input
+                                        type="text"
+                                        placeholder="Description (optional)"
                                         value={newFeeType.description}
                                         onChange={(e) => setNewFeeType({ ...newFeeType, description: e.target.value })}
                                         className="px-4 py-3 rounded-xl border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue"

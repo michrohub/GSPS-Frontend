@@ -1,7 +1,22 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ChatFloatingButton from '../components/Chat/ChatFloatingButton';
+import {
+    FaTachometerAlt,
+    FaIdCard,
+    FaTools,
+    FaMoneyBillWave,
+    FaUsers,
+    FaFileContract,
+    FaUserGraduate,
+    FaChartLine,
+    FaComments
+} from "react-icons/fa";
+
+import { TbLogout } from "react-icons/tb";
+
+
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
     const location = useLocation();
@@ -9,21 +24,23 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     const navigate = useNavigate();
 
     const menuItems = [
-        { name: 'Overview', path: '/dashboard', icon: '📊' },
-        { name: 'KYC Status', path: '/dashboard/kyc', icon: '🪪' },
-        { name: 'Service', path: '/dashboard/service', icon: '🛠️' },
-        { name: 'Payments', path: '/dashboard/payments', icon: '💸' },
-        { name: 'Referrals', path: '/dashboard/referrals', icon: '👥' },
-        { name: 'Wallet', path: '/dashboard/wallet', icon: '💰' },
+        { name: 'Dashboard', path: '/dashboard', icon: FaTachometerAlt },
+        { name: 'KYC Status', path: '/dashboard/kyc', icon: FaIdCard },
+        { name: 'Service', path: '/dashboard/service', icon: FaTools },
+        { name: 'Payments', path: '/dashboard/payments', icon: FaMoneyBillWave },
+        { name: 'Referrals', path: '/dashboard/referrals', icon: FaUsers },
+        { name: 'Terms & Conditions', path: '/dashboard/terms', icon: FaFileContract },
+        { name: 'Profile', path: '/dashboard/profile', icon: FaUserGraduate },
     ];
 
     const adminItems = [
-        { name: 'KYC Management', path: '/admin/kyc', icon: '🔍' },
-        { name: 'Payments list', path: '/admin/payments', icon: '💳' },
-        { name: 'User Management', path: '/admin/users', icon: '👥' },
-        { name: 'Fee Applications', path: '/admin/service', icon: '📑' },
-        { name: 'Analytics', path: '/admin/analytics', icon: '📈' },
-        { name: 'Live Chat', path: '/admin/chat', icon: '💬' },
+        { name: 'Dashboard', path: '/admin/analytics', icon: FaChartLine },
+        { name: 'KYC Management', path: '/admin/kyc', icon: FaIdCard },
+        { name: 'Payments list', path: '/admin/payments', icon: FaMoneyBillWave },
+        { name: 'User Management', path: '/admin/users', icon: FaUsers },
+        { name: 'Fee Applications', path: '/admin/service', icon: FaFileContract },
+
+        { name: 'Live Chat', path: '/admin/chat', icon: FaComments },
     ];
 
     const actualItems = user?.role === 'admin' ? adminItems : menuItems;
@@ -39,26 +56,34 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 </div>
 
                 <nav className="flex-1 px-6 py-4 space-y-2 overflow-y-auto custom-scrollbar">
-                    {actualItems.map((item) => (
-                        <Link
-                            key={item.name}
-                            to={item.path}
-                            className={`flex items-center space-x-4 px-6 py-4 rounded-[10px] transition-all ${
-                                location.pathname === item.path ? 'bg-gsps-green text-white shadow-lg' : 'hover:bg-white/5 text-white/60 hover:text-white'
-                            }`}
-                        >
-                            <span className="text-xl">{item.icon}</span>
-                            <span className="font-bold">{item.name}</span>
-                        </Link>
-                    ))}
+                    {actualItems.map((item) => {
+                        const Icon = item.icon;
+
+                        return (
+                            <Link
+                                key={item.name}
+                                to={item.path}
+                                className={`flex items-center space-x-4 px-6 py-4 rounded-[10px] transition-all ${location.pathname === item.path
+                                    ? 'bg-gsps-green text-white shadow-lg'
+                                    : 'hover:bg-white/5 text-white/60 hover:text-white'
+                                    }`}
+                            >
+                                {/* ✅ icon render */}
+                                <Icon className="text-xl" />
+
+                                <span className="font-bold">{item.name}</span>
+                            </Link>
+                        );
+                    })}
                 </nav>
 
                 <div className=" mt-auto border-t border-white/5">
-                    <button 
+                    <button
                         onClick={() => { logout(); navigate('/login'); }}
                         className="flex items-center space-x-4 px-6 py-4 w-full text-left text-white/40 hover:text-red-400 hover:bg-red-400/5 rounded-2xl transition-all cursor-pointer"
                     >
-                        <span>🚪</span>
+                        <TbLogout />
+
                         <span className="font-bold">Logout</span>
                     </button>
                 </div>
@@ -69,24 +94,66 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-    const { user } = useAuth();
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const { user, logout } = useAuth();
+    const dropdownRef = useRef(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
         <div className="min-h-screen bg-gsps-bg-light">
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setSidebarOpen(!isSidebarOpen)} />
-            
+
             <div className="lg:ml-72 flex flex-col min-h-screen">
                 <header className="sticky top-0 z-40 bg-white/50 backdrop-blur-xl border-b border-gray-100 px-6 lg:px-6 py-3 flex items-center justify-between">
                     <button onClick={() => setSidebarOpen(true)} className="lg:hidden px-4 py-2 text-gsps-blue bg-white rounded-[10px] shadow-sm">☰</button>
-                    
-                    <div className="flex items-center space-x-4 ml-auto">
-                        <div className="text-right hidden sm:block">
-                            <p className="font-black text-gsps-blue leading-none">{user?.fullName}</p>
-                            <p className="text-xs font-bold text-gsps-blue/40 uppercase tracking-widest mt-1">{user?.role === 'admin' ? 'Administrator' : 'Student Account'}</p>
-                        </div>
-                        <div className="w-12 h-12 bg-gsps-green/10 text-gsps-green rounded-2xl flex items-center justify-center font-black text-lg">
-                            {user?.fullName?.charAt(0)}
-                        </div>
+
+                    <div className="relative ml-auto" ref={dropdownRef}>
+                        <button
+                            onClick={() => setDropdownOpen(!isDropdownOpen)}
+                            className="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded-2xl transition-all"
+                        >
+                            <div className="text-right hidden sm:block">
+                                <p className="font-black text-gsps-blue leading-none">{user?.fullName}</p>
+                                <p className="text-xs font-bold text-gsps-blue/40 uppercase tracking-widest mt-1">{user?.role === 'admin' ? 'Administrator' : 'Student Account'}</p>
+                            </div>
+                            <div className="w-12 h-12 bg-gsps-green/10 text-gsps-green rounded-2xl flex items-center justify-center font-black text-lg overflow-hidden border-2 border-white shadow-sm">
+                                {user?.profileImage ? (
+                                    <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                                ) : (
+                                    user?.fullName?.charAt(0)
+                                )}
+                            </div>
+                        </button>
+
+                        {isDropdownOpen && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-[10px] shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                <Link
+                                    to="/dashboard/profile"
+                                    className="flex items-center space-x-2 gap-2 block px-6 py-3 text-sm font-bold text-gsps-blue hover:bg-gsps-bg-light hover:text-gsps-green transition-all"
+                                    onClick={() => setDropdownOpen(false)}
+                                >
+                                    <FaUserGraduate />  Profile
+                                </Link>
+                                <hr className="my-1 border-gray-50" />
+                                <button
+                                    onClick={() => { logout(); navigate('/login'); }}
+                                    className="flex items-center space-x-2 gap-2 w-full text-left px-6 py-3 text-sm font-bold text-red-500 hover:bg-red-50/50 transition-all"
+                                >
+                                    <TbLogout />
+                                    Logout
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </header>
 

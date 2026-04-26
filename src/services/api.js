@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    // baseURL: 'http://localhost:5000/api',
-    baseURL: 'https://api.gsps.online/api',
+    baseURL: 'http://localhost:5000/api',
+    // baseURL: 'https://api.gsps.online/api',
     headers: {
         'Content-Type': 'application/json'
     }
@@ -21,5 +21,11 @@ api.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
+// User Profile & Password
+export const updateProfile = (formData) => api.put('/user/profile', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+});
+export const changePassword = (data) => api.put('/user/change-password', data);
 
 export default api;

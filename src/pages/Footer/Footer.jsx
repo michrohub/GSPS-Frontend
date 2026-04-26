@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
+import { FaFacebookF } from "react-icons/fa6";
+import { BsTwitterX } from "react-icons/bs";
+import { FaTelegramPlane } from "react-icons/fa";
+
+
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
+
   const footerLinks = [
     {
       title: "Company",
@@ -41,7 +46,7 @@ const Footer = () => {
   return (
     <footer className="bg-gsps-blue text-white pt-20 pb-10 overflow-hidden relative">
       <div className="absolute top-0 right-0 w-64 h-64 bg-gsps-green/10 rounded-full blur-[100px] -mt-32 -mr-32"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
           {/* Brand Column */}
@@ -57,10 +62,16 @@ const Footer = () => {
               Empowering international students with transparent, fast, and secure tuition payment solutions globally.
             </p>
             <div className="flex space-x-4">
-              {['facebook', 'twitter', 'linkedin', 'instagram'].map((social) => (
-                <a key={social} href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gsps-green transition-colors group">
-                  <span className="sr-only">{social}</span>
-                  <div className="w-5 h-5 bg-white/50 group-hover:bg-white mask-icon" />
+              {[FaFacebookF, BsTwitterX, FaTelegramPlane].map((Icon, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gsps-green transition-colors group"
+                >
+                  <span className="sr-only">social</span>
+
+                  {/* icon render */}
+                  <Icon className="text-white group-hover:text-white text-lg" />
                 </a>
               ))}
             </div>
@@ -74,8 +85,8 @@ const Footer = () => {
                 <ul className="space-y-4">
                   {section.links.map((link) => (
                     <li key={link.name}>
-                      <Link 
-                        to={link.path} 
+                      <Link
+                        to={link.path}
                         className="text-blue-100/60 hover:text-gsps-green transition-colors text-sm font-medium"
                       >
                         {link.name}
