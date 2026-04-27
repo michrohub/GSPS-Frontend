@@ -159,7 +159,7 @@ const PaymentManagement = () => {
                                     </select>
                                 </div>
 
-                                <div className="space-y-2">
+                                <div className="space-y-2 hidden">
                                     <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Savings for Student (USD)</label>
                                     <input
                                         type="number"

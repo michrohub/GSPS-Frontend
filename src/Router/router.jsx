@@ -33,7 +33,7 @@ import Terms from "../pages/Dashboard/Terms.jsx";
 import Profile from "../pages/Dashboard/Profile.jsx";
 
 // Protection
-import { ProtectedRoute, KYCProtectedRoute, AdminRoute } from "../components/Protection/ProtectedRoute.jsx";
+import { ProtectedRoute, KYCProtectedRoute, AdminRoute, TermsProtectedRoute } from "../components/Protection/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -56,7 +56,9 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <ProtectedRoute>
-        <DashboardLayout />
+        <TermsProtectedRoute>
+          <DashboardLayout />
+        </TermsProtectedRoute>
       </ProtectedRoute>
     ),
     children: [

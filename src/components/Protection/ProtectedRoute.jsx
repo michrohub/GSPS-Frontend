@@ -37,3 +37,20 @@ export const AdminRoute = ({ children }) => {
 
     return children;
 };
+
+export const TermsProtectedRoute = ({ children }) => {
+    const { user, loading } = useAuth();
+    const location = useLocation();
+
+    if (loading) return null;
+
+    // Only students need to accept terms
+    if (user && user.role === 'student' && !user.termsAccepted) {
+        // If not on terms page, redirect to terms page
+        if (location.pathname !== '/dashboard/terms') {
+            return <Navigate to="/dashboard/terms" replace />;
+        }
+    }
+
+    return children;
+};

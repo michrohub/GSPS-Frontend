@@ -30,7 +30,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         { name: 'Payments', path: '/dashboard/payments', icon: FaMoneyBillWave },
         { name: 'Referrals', path: '/dashboard/referrals', icon: FaUsers },
         { name: 'Profile', path: '/dashboard/profile', icon: FaUserGraduate },
-        { name: 'Terms & Conditions', path: '/dashboard/terms', icon: FaFileContract },
+        // { name: 'Terms & Conditions', path: '/dashboard/terms', icon: FaFileContract },
     ];
 
     const adminItems = [
@@ -108,6 +108,16 @@ const DashboardLayout = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
+    if (user && user.role === 'student' && !user.termsAccepted) {
+        return (
+            <div className="min-h-screen bg-gsps-bg-light flex flex-col items-center justify-center p-6">
+                <main className="w-full max-w-4xl">
+                    <Outlet />
+                </main>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gsps-bg-light">

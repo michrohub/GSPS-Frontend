@@ -204,7 +204,7 @@ const FeeApplicationManagement = () => {
                                 </div>
                             )}
 
-                             {selectedApp.action === 'Complete' && (
+                            {selectedApp.action === 'Complete' && (
                                 <div className="space-y-4">
                                     {selectedApp.payment && (
                                         <div className="bg-gsps-bg-light p-6 rounded-2xl space-y-4 border border-gray-100 shadow-inner">
@@ -230,7 +230,7 @@ const FeeApplicationManagement = () => {
                                         </div>
                                     )}
                                     <div className="space-y-2">
-                                        <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Final Payment Amount (GBP)</label>
+                                        <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Final Payment Amount</label>
                                         <input type="number" value={finalAmount || (selectedApp.payment?.amount || '')} onChange={(e) => setFinalAmount(e.target.value)} required placeholder="0.00" className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue shadow-inner" />
                                     </div>
                                     <div className="space-y-2">

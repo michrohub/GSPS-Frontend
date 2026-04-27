@@ -89,6 +89,7 @@ const Service = () => {
             case 'Completed': return 'bg-green-500';
             case 'Rejected': return 'bg-red-500';
             case 'Pending Verification': return 'bg-purple-600';
+            case 'Processing': return 'bg-gsps-blue';
             default: return 'bg-gray-500';
         }
     };
@@ -167,7 +168,7 @@ const Service = () => {
                                 <th className="px-8 py-6 text-xs font-black text-gsps-blue/40  tracking-widest">Fee Type</th>
                                 <th className="px-8 py-6 text-xs font-black text-gsps-blue/40  tracking-widest">Amount</th>
                                 <th className="px-8 py-6 text-xs font-black text-gsps-blue/40  tracking-widest">Status</th>
-                                <th className="px-8 py-6 text-xs font-black text-gsps-blue/40  tracking-widest">Date</th>
+                                <th className="px-8 py-6 text-xs font-black text-gsps-blue/40  tracking-widest">Receipt</th>
                                 <th className="px-8 py-6 text-xs font-black text-gsps-blue/40  tracking-widest text-right">Actions</th>
                             </tr>
                         </thead>
@@ -195,18 +196,31 @@ const Service = () => {
                                             )}
                                         </td>
                                         <td className="px-8 py-6 text-xs font-bold text-gsps-blue/40 uppercase tracking-widest">
-                                            {new Date(app.createdAt).toLocaleDateString()}
+
+
+                                            {app.status === 'Completed' ? (
+                                                <a
+                                                    href={`https://api.gsps.online${app?.invoiceUrl}`}
+                                                    // href={`http://localhost:5000${app?.invoiceUrl}`}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="bg-gsps-blue text-white px-4 py-2 rounded-xl font-black text-xs hover:bg-gsps-green transition-all shadow-md flex items-center gap-2"
+                                                >
+                                                    📄 View Invoice
+                                                </a>
+                                            ) : "Pending"}
+
                                         </td>
                                         <td className="px-8 py-6 text-right space-x-3">
-                                            <button
+                                            {/* <button
                                                 onClick={() => handleWhatsApp(app._id)}
                                                 className="p-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition-all shadow-sm"
                                                 title="WhatsApp Support"
                                             >
                                                 <FaTelegramPlane />
 
-                                            </button>
-                                            {app.status === 'Pending' && (
+                                            </button> */}
+                                            {app.status === 'Completed' && !app.payment && (
                                                 <button
                                                     onClick={() => {
                                                         setSelectedApp(app);
@@ -217,19 +231,24 @@ const Service = () => {
                                                     Pay Now
                                                 </button>
                                             )}
-                                            {app.status === 'Pending Verification' && (
-                                                <span className="text-xs font-black text-purple-600 uppercase tracking-widest italic">
-                                                    Pending Verification
-                                                </span>
+                                            {app.payment && (
+                                                <div className="inline-flex flex-col items-end">
+                                                    <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest ${getStatusColor(app.payment.status)}`}>
+                                                        Payment: {app.payment.status}
+                                                    </span>
+                                                    {app.payment.adminNote && (
+                                                        <p className="text-[9px] text-gsps-blue/40 font-bold mt-1 max-w-[120px] truncate" title={app.payment.adminNote}>Note: {app.payment.adminNote}</p>
+                                                    )}
+                                                </div>
                                             )}
-                                            {app.status === 'Completed' && (
-                                                <span className="text-xs font-black text-gsps-green uppercase tracking-widest">
-                                                    Payment Completed
-                                                </span>
-                                            )}
-                                            {app.status === 'Rejected' && (
+                                            {app.status === 'Rejected' && !app.payment && (
                                                 <span className="text-xs font-black text-red-500 uppercase tracking-widest">
                                                     Rejected
+                                                </span>
+                                            )}
+                                            {app.status !== 'Completed' && app.status !== 'Rejected' && !app.payment && (
+                                                <span className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest italic">
+                                                    Processing...
                                                 </span>
                                             )}
                                         </td>
@@ -313,16 +332,30 @@ const Service = () => {
                         <div className="px-8 py-6 bg-gsps-blue text-white flex items-center justify-between">
                             <div>
                                 <h2 className="text-2xl font-black">Crypto <span className="text-gsps-green">Payment</span></h2>
-                                <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Submit Transaction Details</p>
+                                {/* <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Submit Transaction Details</p> */}
                             </div>
                             <button onClick={() => setShowPayModal(false)} className="text-white/60 hover:text-white text-2xl font-black">✕</button>
                         </div>
 
                         <div className="p-8 space-y-6 max-h-[80vh] overflow-y-auto">
+                            {/* Admin Specified Details */}
+                            <div className="bg-gsps-blue/5 p-6 rounded-2xl border-2 border-gsps-blue/10 space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <div className='flex flex-col items-center justify-center w-full'>
+                                        <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest">Amount to Pay</p>
+                                        <p className="text-[40px] font-black text-gsps-green">{selectedApp?.finalAmount}</p>
+                                    </div>
+
+                                </div>
+                                <p className="text-sm font-bold text-center italic">
+                                    According to your badge, the applicable discount has been duly adjusted. Kindly purchase cryptocurrency using your local currency and complete the payment accordingly.
+                                </p>
+                            </div>
+
                             <div className="bg-orange-50 border-2 border-orange-200 p-4 rounded-2xl flex items-start gap-4">
                                 <FaExclamationTriangle className="text-orange-500 text-xl shrink-0 mt-1" />
                                 <p className="text-sm font-bold text-orange-800">
-                                    অবশ্যই ক্রিপ্টোকারেন্সির মাধ্যমে পেমেন্ট করতে হবে। ভুল নেটওয়ার্কে পেমেন্ট করলে তা পুনরুদ্ধার করা সম্ভব নয়।
+                                    Payment must be made strictly via cryptocurrency. Any payment sent through an incorrect network will not be recoverable
                                 </p>
                             </div>
 

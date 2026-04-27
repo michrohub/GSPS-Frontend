@@ -79,6 +79,8 @@ const UserManagement = () => {
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Tier</th>
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Referrals</th>
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Wallet</th>
+                            <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">T&C Status</th>
+                            <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">T&C Name</th>
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Joined</th>
                         </tr>
                     </thead>
@@ -100,6 +102,14 @@ const UserManagement = () => {
                                 </td>
                                 <td className="px-8 py-5 font-black text-gsps-blue">{u.referralCount || 0}</td>
                                 <td className="px-8 py-5 font-black text-gsps-blue">${u.walletBalance.toFixed(2)}</td>
+                                <td className="px-8 py-5">
+                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${
+                                        u.termsAccepted ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                                    }`}>
+                                        {u.termsAccepted ? 'Accepted' : 'Pending'}
+                                    </span>
+                                </td>
+                                <td className="px-8 py-5 font-bold text-sm text-gsps-blue/60">{u.termsAcceptedName || 'N/A'}</td>
                                 <td className="px-8 py-5 font-bold text-sm text-gsps-blue/40">{new Date(u.createdAt).toLocaleDateString()}</td>
                             </tr>
                         ))}

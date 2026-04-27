@@ -63,7 +63,7 @@ const OTPVerification = () => {
     try {
       await verifyOTP(email, otpString);
       setSuccess("Email verified successfully! Redirecting...");
-      setTimeout(() => navigate("/dashboard"), 2000);
+      setTimeout(() => navigate("/dashboard/terms"), 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Invalid OTP. Please try again.");
     } finally {
