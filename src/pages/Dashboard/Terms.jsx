@@ -19,7 +19,7 @@ const Terms = () => {
         setLoading(true);
         try {
             const res = await api.put('/auth/accept-terms', { name: confirmName });
-            setUser(res.data.user);
+            setUser(prev => ({ ...prev, ...res.data.user }));
             toast.success("Terms accepted successfully!");
             navigate('/dashboard');
         } catch (err) {

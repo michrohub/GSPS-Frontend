@@ -97,18 +97,41 @@ const Referrals = () => {
                             Copy Link
                         </button>
                     </div>
-                    <div className="pt-8 grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/10">
-                        <div className="space-y-2">
-                            <p className="text-2xl font-black text-gsps-green">10%</p>
-                            <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Commission</p>
+                    <div className="pt-12 space-y-10">
+                        <div className="inline-block px-6 py-2 bg-gsps-green/20 text-gsps-green rounded-full text-xs font-black uppercase tracking-[0.2em] border border-gsps-green/30">
+                            Reward Tiers
                         </div>
-                        <div className="space-y-2">
-                            <p className="text-2xl font-black text-gsps-green">Instant</p>
-                            <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Payouts</p>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {[
+                                { name: 'Silver', rate: '20%', color: 'border-slate-400/30 bg-slate-400/5', icon: '🥈' },
+                                { name: 'Gold', rate: '25%', color: 'border-amber-500/30 bg-amber-500/5', icon: '🥇' },
+                                { name: 'Diamond', rate: '30%', color: 'border-cyan-400/30 bg-cyan-400/5', icon: '💎' }
+                            ].map((tier, idx) => (
+                                <div key={idx} className={`p-6 rounded-[30px] border-2 ${tier.color} backdrop-blur-sm transition-transform hover:scale-105`}>
+                                    <div className="text-3xl mb-3">{tier.icon}</div>
+                                    <h4 className="text-sm font-black text-white/50 uppercase tracking-widest mb-1">{tier.name}</h4>
+                                    <p className="text-4xl font-black text-gsps-green">{tier.rate}</p>
+                                    <p className="text-[10px] font-bold text-white/30 uppercase mt-2">Commission</p>
+                                </div>
+                            ))}
                         </div>
-                        <div className="space-y-2">
-                            <p className="text-2xl font-black text-gsps-green">Unlimited</p>
-                            <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Invites</p>
+
+                        <div className="relative group overflow-hidden bg-gradient-to-r from-gsps-green/20 to-gsps-green/5 border-2 border-gsps-green/30 p-8 rounded-[35px] backdrop-blur-md">
+                            <div className="absolute -right-4 -top-4 w-24 h-24 bg-gsps-green/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+                                <div className="space-y-2">
+                                    <h3 className="text-2xl font-black text-white flex items-center gap-3 justify-center md:justify-start">
+                                        <span className="text-3xl">🎁</span> Special Referral Bonus
+                                    </h3>
+                                    <p className="text-white/60 font-bold max-w-md">
+                                        Get an extra <span className="text-gsps-green text-xl font-black">$50</span> for every single member you refer who successfully joins and completes their KYC!
+                                    </p>
+                                </div>
+                                <div className="text-5xl font-black text-gsps-green bg-white/10 px-8 py-4 rounded-3xl border border-white/10">
+                                    +$50
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

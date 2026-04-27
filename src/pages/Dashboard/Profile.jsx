@@ -39,7 +39,7 @@ const Profile = () => {
 
         try {
             const res = await updateProfile(formData);
-            setUser(res.data.user);
+            setUser(prev => ({ ...prev, ...res.data.user }));
             toast.success('Profile updated successfully');
         } catch (err) {
             toast.error(err.response?.data?.message || 'Failed to update profile');

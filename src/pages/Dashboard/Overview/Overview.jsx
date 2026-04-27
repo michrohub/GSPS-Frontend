@@ -187,7 +187,7 @@ const Overview = () => {
                         <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-3xl">🚀</div>
                         <div>
                             <h3 className="text-2xl font-black mb-2">Refer & Earn</h3>
-                            <p className="text-white/60 font-medium">Earn $20 for every friend who completes their first international payment.</p>
+                            <p className="text-white/60 font-medium">Earn $50 for every friend who completes their Kyc verification. and also Update you Badge.</p>
                         </div>
                         <div className="bg-white/10 p-4 rounded-2xl border border-white/10 flex items-center justify-between">
                             <span className="font-mono font-bold text-gsps-green">{user?.referralCode}</span>
