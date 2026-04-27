@@ -17,15 +17,15 @@ const Banner = () => {
           {/* Left Column: Content */}
           <div className="text-center lg:text-left lg:col-span-7 xl:col-span-6">
             <div className="inline-block px-4 py-1.5 rounded-full bg-gsps-green/10 text-gsps-green font-bold text-xs sm:text-sm mb-6 uppercase tracking-widest">
-              Secure Global Student Payments
+              Secure Global All Payments
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[45px] xl:text-[52px] tracking-tight font-black text-gsps-blue leading-[1.2] lg:leading-[1.1] mb-6">
-              Pay Your Tuition Globally — <br className="hidden sm:block" />
-              <span className="text-gsps-green">Save More</span> as a Student
+              Pay Your Payment Globally — <br className="hidden sm:block" />
+              <span className="text-gsps-green">Save More</span>
             </h1>
             <p className="text-base sm:text-lg text-gray-500 max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed mb-10">
-              Send tuition payments worldwide with lower fees, better exchange
-              rates, and flexible payment options designed for students.
+              Send payments worldwide with lower fees, better exchange
+              rates, and flexible payment options designed for All.
             </p>
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
               <Link
@@ -55,9 +55,9 @@ const Banner = () => {
               <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-2xl hidden md:block animate-float">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gsps-green/10 flex items-center justify-center">
-                     <svg className="w-6 h-6 text-gsps-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                     </svg>
+                    <svg className="w-6 h-6 text-gsps-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
                   </div>
                   <div>
                     <p className="text-xs font-bold text-gsps-blue opacity-50 uppercase">Savings Status</p>

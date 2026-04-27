@@ -21,7 +21,7 @@ const Overview = () => {
                 const res = await api.get('/payments/my');
                 const payments = res.data;
                 setRecentPayments(payments.slice(0, 5));
-                
+
                 const completed = payments.filter(p => p.status === 'Completed');
                 const totalPaid = completed.reduce((acc, curr) => acc + curr.amount, 0);
                 const totalSaved = completed.reduce((acc, curr) => acc + curr.savingsAmount, 0);
@@ -68,7 +68,7 @@ const Overview = () => {
                     <Link to="/dashboard/kyc" className="bg-orange-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-orange-700 transition shadow-lg shadow-orange-600/20 active:scale-95 whitespace-nowrap">Verify Now</Link>
                 </div>
             )}
-            
+
             {kycStatus && kycStatus.status === 'pending' && (
                 <div className="bg-blue-50 border border-blue-200 text-blue-800 p-6 rounded-2xl mb-6 flex justify-between items-center">
                     <div>
@@ -77,7 +77,7 @@ const Overview = () => {
                     </div>
                 </div>
             )}
-            
+
             {kycStatus && kycStatus.status === 'approved' && (
                 <div className="bg-green-50 border border-green-200 text-green-800 p-6 rounded-2xl mb-6 flex justify-between items-center">
                     <div>
@@ -87,7 +87,7 @@ const Overview = () => {
                     <span className="bg-green-600 text-white px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest whitespace-nowrap">Verified</span>
                 </div>
             )}
-            
+
             {kycStatus && kycStatus.status === 'rejected' && (
                 <div className="bg-red-50 border border-red-200 text-red-800 p-6 rounded-2xl mb-6 flex flex-col md:flex-row justify-between items-center">
                     <div className="mb-4 md:mb-0">
@@ -100,11 +100,11 @@ const Overview = () => {
             )}
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                 {[
                     { label: 'Current Tier', value: user?.tier || 'Silver', icon: user?.tier === 'Diamond' ? '💎' : user?.tier === 'Gold' ? '🥇' : '🥈', color: user?.tier === 'Diamond' ? 'bg-purple-50 text-purple-600' : user?.tier === 'Gold' ? 'bg-yellow-50 text-yellow-600' : 'bg-gray-50 text-gray-600' },
                     { label: 'Total Saved', value: `$${stats.totalSaved.toFixed(2)}`, icon: '💰', color: 'bg-blue-50 text-gsps-blue' },
-                    { label: 'Referral Earnings', value: `$${stats.referralEarnings}`, icon: '💵', color: 'bg-gsps-green/10 text-gsps-green' },
+                    // { label: 'Referral Earnings', value: `$${stats.referralEarnings}`, icon: '💵', color: 'bg-gsps-green/10 text-gsps-green' },
                     { label: 'Valid Referrals', value: stats.referralCount, icon: '👥', color: 'bg-orange-50 text-orange-600' }
                 ].map((stat, i) => (
                     <div key={i} className="bg-white p-[20px] rounded-[15px] shadow-sm border border-gray-100 group hover:scale-[1.02] transition-all">
@@ -121,18 +121,23 @@ const Overview = () => {
                     <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
                         <div>
                             <h2 className="text-xl font-black text-gsps-blue">Tier Progress</h2>
+                            {stats.totalPayments === 0 && (
+                                <p className="text-[10px] font-black text-orange-500 uppercase tracking-widest mb-1 italic">
+                                    ⚠️ Complete 1+ payment to activate rewards
+                                </p>
+                            )}
                             <p className="text-sm font-bold text-gsps-blue/40 uppercase tracking-widest">
-                                {user?.tier === 'Silver' ? `Refer ${3 - stats.referralCount} more users to reach Gold` : `Refer ${10 - stats.referralCount} more users to reach Diamond`}
+                                {user?.tier === 'Silver' ? `Refer ${Math.max(0, 5 - stats.referralCount)} more users to reach Gold` : `Refer ${Math.max(0, 10 - stats.referralCount)} more users to reach Diamond`}
                             </p>
                         </div>
                         <div className="mt-4 md:mt-0 px-4 py-2 bg-gsps-blue/5 rounded-xl border border-gsps-blue/10">
-                            <span className="text-xs font-black text-gsps-blue uppercase tracking-widest">Benefit: {user?.tier === 'Silver' ? '5% Discount' : '8% Discount'}</span>
+                            <span className="text-xs font-black text-gsps-blue uppercase tracking-widest">Benefit: {user?.tier === 'Silver' ? '20% Discount' : '8% Discount'}</span>
                         </div>
                     </div>
                     <div className="w-full h-4 bg-gsps-bg-light rounded-full overflow-hidden">
-                        <div 
-                            className="h-full bg-gsps-green transition-all duration-1000" 
-                            style={{ width: `${(stats.referralCount / (user?.tier === 'Silver' ? 3 : 10)) * 100}%` }}
+                        <div
+                            className="h-full bg-gsps-green transition-all duration-1000"
+                            style={{ width: `${Math.min(100, (stats.referralCount / (user?.tier === 'Silver' ? 5 : 10)) * 100)}%` }}
                         ></div>
                     </div>
                 </div>
@@ -145,7 +150,7 @@ const Overview = () => {
                         <h2 className="text-2xl font-black text-gsps-blue">Recent Payments</h2>
                         <button className="text-gsps-green font-bold hover:underline">View All</button>
                     </div>
-                    
+
                     {recentPayments.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-12 text-center">
                             <div className="text-4xl mb-4">📭</div>
@@ -164,11 +169,10 @@ const Overview = () => {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-black text-gsps-blue">{p.amount} {p.currency}</p>
-                                        <p className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${
-                                            p.status === 'Completed' ? 'bg-green-100 text-green-600' : 
+                                        <p className="font-black text-gsps-blue">{p.amount} </p>
+                                        <p className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${p.status === 'Completed' ? 'bg-green-100 text-green-600' :
                                             p.status === 'Pending' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-gsps-blue'
-                                        }`}>{p.status}</p>
+                                            }`}>{p.status}</p>
                                     </div>
                                 </div>
                             ))}

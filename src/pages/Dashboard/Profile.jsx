@@ -7,7 +7,7 @@ const Profile = () => {
     const { user, setUser } = useAuth();
     const [loading, setLoading] = useState(false);
     const [passwordLoading, setPasswordLoading] = useState(false);
-    
+
     // Profile Update State
     const [fullName, setFullName] = useState(user?.fullName || '');
     const [profileImage, setProfileImage] = useState(null);
@@ -111,27 +111,27 @@ const Profile = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-gray-50">
                             <div className="space-y-2">
                                 <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Full Name</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     value={fullName}
                                     onChange={(e) => setFullName(e.target.value)}
                                     className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue transition-all"
-                                    required
+                                    disabled
                                 />
                             </div>
                             <div className="space-y-2 opacity-50 cursor-not-allowed">
                                 <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Email Address (Locked)</label>
-                                <input 
-                                    type="email" 
-                                    value={user?.email || ''} 
-                                    disabled 
+                                <input
+                                    type="email"
+                                    value={user?.email || ''}
+                                    disabled
                                     className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent outline-none font-bold text-gsps-blue"
                                 />
                             </div>
                         </div>
 
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             disabled={loading}
                             className="w-full md:w-auto px-12 py-4 bg-gsps-blue text-white rounded-2xl font-black shadow-lg shadow-blue-500/10 hover:bg-gsps-green transition-all active:scale-95 disabled:opacity-50"
                         >
@@ -142,14 +142,14 @@ const Profile = () => {
                     {/* Change Password */}
                     <form onSubmit={handlePasswordUpdate} className="bg-white p-8 rounded-[10px] shadow-sm border border-gray-100 space-y-6">
                         <h3 className="text-xl font-black text-gsps-blue mb-4">Security & <span className="text-gsps-green">Password</span></h3>
-                        
+
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Current Password</label>
-                                <input 
-                                    type="password" 
+                                <input
+                                    type="password"
                                     value={passwords.currentPassword}
-                                    onChange={(e) => setPasswords({...passwords, currentPassword: e.target.value})}
+                                    onChange={(e) => setPasswords({ ...passwords, currentPassword: e.target.value })}
                                     placeholder="••••••••"
                                     className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue transition-all"
                                     required
@@ -158,10 +158,10 @@ const Profile = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">New Password</label>
-                                    <input 
-                                        type="password" 
+                                    <input
+                                        type="password"
                                         value={passwords.newPassword}
-                                        onChange={(e) => setPasswords({...passwords, newPassword: e.target.value})}
+                                        onChange={(e) => setPasswords({ ...passwords, newPassword: e.target.value })}
                                         placeholder="••••••••"
                                         className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue transition-all"
                                         required
@@ -169,10 +169,10 @@ const Profile = () => {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Confirm Password</label>
-                                    <input 
-                                        type="password" 
+                                    <input
+                                        type="password"
                                         value={passwords.confirmPassword}
-                                        onChange={(e) => setPasswords({...passwords, confirmPassword: e.target.value})}
+                                        onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })}
                                         placeholder="••••••••"
                                         className="w-full px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue transition-all"
                                         required
@@ -181,8 +181,8 @@ const Profile = () => {
                             </div>
                         </div>
 
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             disabled={passwordLoading}
                             className="w-full md:w-auto px-12 py-4 bg-gsps-blue text-white rounded-2xl font-black shadow-lg shadow-blue-500/10 hover:bg-gsps-green transition-all active:scale-95 disabled:opacity-50"
                         >

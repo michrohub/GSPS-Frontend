@@ -4,11 +4,11 @@ const Terms = () => {
     const terms = [
         {
             id: 1,
-            text: "যদি কোনো কারণে পেমেন্ট-সংক্রান্ত সমস্যা (যেমন: রিফান্ড বা চার্জব্যাক) দেখা দেয়, অনুগ্রহ করে আমাদের সঙ্গে যোগাযোগ করুন। সেক্ষেত্রে যাচাই-বাছাই সাপেক্ষে পুনরায় পেমেন্ট প্রদান করা হবে এবং সার্ভিস চার্জ হিসেবে ৫% থেকে ১৫% পর্যন্ত কেটে নেওয়া হবে।"
+            text: "If any payment-related issues occur (such as a refund or chargeback), please contact us. In such cases, after verification, the payment will be reissued, and a service charge of 5% to 15% will be deducted."
         },
         {
             id: 2,
-            text: "আপনাদের সার্ভিস প্রদান সম্পন্ন হওয়ার পর ১ থেকে ৬ ঘণ্টার মধ্যে পেমেন্ট সম্পন্ন না হলে, বিষয়টি পর্যালোচনা করে প্রযোজ্য আইন অনুযায়ী প্রয়োজনীয় ব্যবস্থা গ্রহণ করা হবে এবং প্রয়োজনে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করা হতে পারে।"
+            text: "If payment is not completed within 1 to 6 hours after your service has been delivered, the matter will be reviewed and necessary actions may be taken in accordance with applicable laws, and the relevant authorities may be notified if required."
         }
     ];
 
@@ -21,8 +21,8 @@ const Terms = () => {
 
             <div className="space-y-6">
                 {terms.map((term) => (
-                    <div 
-                        key={term.id} 
+                    <div
+                        key={term.id}
                         className="bg-white p-8 rounded-[10px] shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
                     >
                         <div className="flex items-start gap-6">
@@ -42,7 +42,7 @@ const Terms = () => {
                     <span>📢</span> Need Help?
                 </h3>
                 <p className="text-white/60 font-bold leading-relaxed">
-                    If you have any questions regarding these terms, please contact our support team through the live chat or WhatsApp.
+                    If you have any questions regarding these terms, please contact our support team through the live chat or Telegram.
                 </p>
             </div>
         </div>

@@ -13,9 +13,10 @@ const HowItWorks = () => {
         </svg>
       ),
       details: [
+        "Name",
         "Verified email and phone required",
-        "Set up your secure PIN",
-        "Multiple device support"
+        "Set up your Password",
+
       ]
     },
     {
@@ -161,20 +162,20 @@ const HowItWorks = () => {
               <h4 className="text-2xl font-bold mb-8 text-blue-200">Traditional Bank</h4>
               <ul className="space-y-6">
                 <li className="flex items-start text-blue-100/70">
-                   <span className="text-red-400 mr-4 font-bold">✕</span>
-                   Hidden 3-5% exchange rate margins
+                  <span className="text-red-400 mr-4 font-bold">✕</span>
+                  Hidden 3-5% exchange rate margins
                 </li>
                 <li className="flex items-start text-blue-100/70">
-                   <span className="text-red-400 mr-4 font-bold">✕</span>
-                   $30-$50 fixed swift fees
+                  <span className="text-red-400 mr-4 font-bold">✕</span>
+                  $30-$50 fixed swift fees
                 </li>
                 <li className="flex items-start text-blue-100/70">
-                   <span className="text-red-400 mr-4 font-bold">✕</span>
-                   3-5 business days processing
+                  <span className="text-red-400 mr-4 font-bold">✕</span>
+                  3-5 business days processing
                 </li>
                 <li className="flex items-start text-blue-100/70">
-                   <span className="text-red-400 mr-4 font-bold">✕</span>
-                   Complex paperwork required
+                  <span className="text-red-400 mr-4 font-bold">✕</span>
+                  Complex paperwork required
                 </li>
               </ul>
             </div>
@@ -183,20 +184,20 @@ const HowItWorks = () => {
               <h4 className="text-2xl font-bold mb-8 text-white">GSPS Student Plan</h4>
               <ul className="space-y-6">
                 <li className="flex items-start text-white">
-                   <span className="text-white mr-4 font-bold">✓</span>
-                   Real mid-market exchange rates
+                  <span className="text-white mr-4 font-bold">✓</span>
+                  Real mid-market exchange rates
                 </li>
                 <li className="flex items-start text-white">
-                   <span className="text-white mr-4 font-bold">✓</span>
-                   Zero processing fees for students
+                  <span className="text-white mr-4 font-bold">✓</span>
+                  Zero processing fees for students
                 </li>
                 <li className="flex items-start text-white">
-                   <span className="text-white mr-4 font-bold">✓</span>
-                   Under 24-hour confirmations
+                  <span className="text-white mr-4 font-bold">✓</span>
+                  Under 24-hour confirmations
                 </li>
                 <li className="flex items-start text-white">
-                   <span className="text-white mr-4 font-bold">✓</span>
-                   Fully digital, ID-only verification
+                  <span className="text-white mr-4 font-bold">✓</span>
+                  Fully digital, ID-only verification
                 </li>
               </ul>
             </div>
@@ -208,8 +209,8 @@ const HowItWorks = () => {
       <section className="py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-             <h2 className="text-3xl font-bold text-gsps-blue mb-4">Common Questions</h2>
-             <div className="w-16 h-1 bg-gsps-green mx-auto rounded-full"></div>
+            <h2 className="text-3xl font-bold text-gsps-blue mb-4">Common Questions</h2>
+            <div className="w-16 h-1 bg-gsps-green mx-auto rounded-full"></div>
           </div>
           <div className="space-y-8">
             <div>
@@ -226,9 +227,9 @@ const HowItWorks = () => {
             </div>
           </div>
           <div className="mt-16 text-center">
-             <Link to="/support" className="text-gsps-green font-bold decoration-2 underline-offset-4 hover:underline">
-               Visit Support Center for more FAQ
-             </Link>
+            <Link to="/support" className="text-gsps-green font-bold decoration-2 underline-offset-4 hover:underline">
+              Visit Support Center for more FAQ
+            </Link>
           </div>
         </div>
       </section>

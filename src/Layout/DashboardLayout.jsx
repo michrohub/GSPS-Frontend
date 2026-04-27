@@ -29,8 +29,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         { name: 'Service', path: '/dashboard/service', icon: FaTools },
         { name: 'Payments', path: '/dashboard/payments', icon: FaMoneyBillWave },
         { name: 'Referrals', path: '/dashboard/referrals', icon: FaUsers },
-        { name: 'Terms & Conditions', path: '/dashboard/terms', icon: FaFileContract },
         { name: 'Profile', path: '/dashboard/profile', icon: FaUserGraduate },
+        { name: 'Terms & Conditions', path: '/dashboard/terms', icon: FaFileContract },
     ];
 
     const adminItems = [

@@ -154,7 +154,7 @@ const KYCForm = () => {
                         </div>
                         <div className="space-y-2">
                             <label className="text-xs font-black text-gsps-blue/40  tracking-widest ml-1">WhatsApp Number</label>
-                            <input type="tel" name="whatsappNumber" value={formData.whatsappNumber} placeholder="+8801..." pattern="^(?:\+8801|01)[3-9]\d{8}$" title="Must be a valid Bangladesh phone number (e.g. 017... or +88017...)" onChange={handleChange} required className="w-full px-6 py-4 rounded-[10px] bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue mt-[10px]" />
+                            <input type="tel" name="whatsappNumber" value={formData.whatsappNumber} placeholder="+8801..." title="Must be a valid Bangladesh phone number (e.g. 017... or +88017...)" onChange={handleChange} required className="w-full px-6 py-4 rounded-[10px] bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue mt-[10px]" />
                         </div>
                     </div>
                 </section>
@@ -164,11 +164,11 @@ const KYCForm = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
-                            { label: 'Student Photo', name: 'studentPhoto', required: true, accept: '.jpg,.jpeg,.png,.pdf' },
+                            { label: 'Photo', name: 'studentPhoto', required: true, accept: '.jpg,.jpeg,.png,.pdf' },
                             { label: 'Passport File', name: 'passportFile', required: true, accept: '.jpg,.jpeg,.png,.pdf' },
                             { label: 'Visa File', name: 'visaFile', required: true, accept: '.jpg,.jpeg,.png,.pdf' },
                             { label: 'University Document', name: 'universityDocument', required: true, accept: '.jpg,.jpeg,.png,.pdf' },
-                            { label: 'GOB Document', name: 'gobDocument', required: true, accept: '.jpg,.jpeg,.png,.pdf' }
+                            { label: 'GOV Document', name: 'gobDocument', required: true, accept: '.jpg,.jpeg,.png,.pdf' }
                         ].map((doc) => (
                             <div key={doc.name} className="space-y-3">
                                 <label className="text-xs font-black text-gsps-blue/40  tracking-widest ml-1 ">{doc.label}</label>

@@ -56,7 +56,7 @@ const Calculator = () => {
             Savings <span className="text-gsps-green h-glow">Calculator</span>
           </h1>
           <p className="text-xl text-gsps-blue/70 max-w-2xl mx-auto font-medium">
-            Calculate your tuition savings based on our exclusive discount tiers.
+            Calculate your Payment savings based on our exclusive discount tiers.
           </p>
         </div>
 
