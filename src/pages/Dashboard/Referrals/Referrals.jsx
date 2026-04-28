@@ -54,9 +54,10 @@ const Referrals = () => {
                         <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-white/10 -translate-y-1/2 z-0"></div>
 
                         {[
-                            { badge: 'Silver', target: 'Initial Status', icon: '🥈', color: 'from-slate-300 to-slate-500', glow: 'shadow-slate-400/20' },
-                            { badge: 'Gold', target: '5 Successfull Refers', icon: '🥇', color: 'from-amber-300 to-amber-600', glow: 'shadow-amber-500/30' },
-                            { badge: 'Diamond', target: '10 Successfull Refers', icon: '💎', color: 'from-cyan-300 to-blue-500', glow: 'shadow-cyan-400/30' }
+                            { badge: 'None', target: '0-2 Referrals', icon: '🌑', color: 'from-gray-300 to-gray-500', glow: 'shadow-gray-400/20' },
+                            { badge: 'Silver', target: '3 Referrals', icon: '🥈', color: 'from-slate-300 to-slate-500', glow: 'shadow-slate-400/20' },
+                            { badge: 'Gold', target: '5 Referrals', icon: '🥇', color: 'from-amber-300 to-amber-600', glow: 'shadow-amber-500/30' },
+                            { badge: 'Premium', target: '10 Referrals', icon: '🏆', color: 'from-cyan-300 to-blue-500', glow: 'shadow-cyan-400/30' }
                         ].map((m, i) => (
                             <div key={i} className="relative z-10 group">
                                 <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1">
@@ -156,9 +157,9 @@ const Referrals = () => {
                         
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {[
-                                { name: 'Silver', rate: '20%', color: 'border-slate-400/30 bg-slate-400/5', icon: '🥈' },
-                                { name: 'Gold', rate: '25%', color: 'border-amber-500/30 bg-amber-500/5', icon: '🥇' },
-                                { name: 'Diamond', rate: '30%', color: 'border-cyan-400/30 bg-cyan-400/5', icon: '💎' }
+                                { name: 'Silver', rate: '5%', color: 'border-slate-400/30 bg-slate-400/5', icon: '🥈' },
+                                { name: 'Gold', rate: '10%', color: 'border-amber-500/30 bg-amber-500/5', icon: '🥇' },
+                                { name: 'Premium', rate: '15%', color: 'border-cyan-400/30 bg-cyan-400/5', icon: '🏆' }
                             ].map((tier, idx) => (
                                 <div key={idx} className={`p-6 rounded-[30px] border-2 ${tier.color} backdrop-blur-sm transition-transform hover:scale-105`}>
                                     <div className="text-3xl mb-3">{tier.icon}</div>

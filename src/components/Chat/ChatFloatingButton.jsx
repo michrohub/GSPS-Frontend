@@ -12,8 +12,8 @@ const ChatFloatingButton = () => {
     if (!user || user.role === 'admin') return null;
 
     const handleWhatsApp = (appId) => {
-        const message = `Hello GSPS Support, I need help with my Fee Application `;
-        window.open(`https://t.me/GSPS26?text=${encodeURIComponent(message)}`, '_blank');
+        const message = `Hello GSPS Support`;
+        window.open(`https://t.me/Gsps2026?text=${encodeURIComponent(message)}`, '_blank');
     };
 
     return (

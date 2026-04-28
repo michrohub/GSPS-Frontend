@@ -116,7 +116,7 @@ const Overview = () => {
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                 {[
-                    { label: 'Current Tier', value: user?.tier || 'Silver', icon: user?.tier === 'Diamond' ? '💎' : user?.tier === 'Gold' ? '🥇' : '🥈', color: user?.tier === 'Diamond' ? 'bg-purple-50 text-purple-600' : user?.tier === 'Gold' ? 'bg-yellow-50 text-yellow-600' : 'bg-gray-50 text-gray-600' },
+                    { label: 'Current Badge', value: user?.tier || 'None', icon: user?.tier === 'Premium' ? '🏆' : user?.tier === 'Gold' ? '🥇' : user?.tier === 'Silver' ? '🥈' : '🌑', color: user?.tier === 'Premium' ? 'bg-purple-50 text-purple-600' : user?.tier === 'Gold' ? 'bg-yellow-50 text-yellow-600' : user?.tier === 'Silver' ? 'bg-slate-50 text-slate-600' : 'bg-gray-50 text-gray-400' },
                     { label: 'Total Saved', value: `$${stats.totalSaved.toFixed(2)}`, icon: '💰', color: 'bg-blue-50 text-gsps-blue' },
                     // { label: 'Referral Earnings', value: `$${stats.referralEarnings}`, icon: '💵', color: 'bg-gsps-green/10 text-gsps-green' },
                     { label: 'Valid Referrals', value: stats.referralCount, icon: '👥', color: 'bg-orange-50 text-orange-600' }
@@ -130,28 +130,33 @@ const Overview = () => {
             </div>
 
             {/* Tier Progress Section */}
-            {user?.tier !== 'Diamond' && (
+            {user?.tier !== 'Premium' && (
                 <div className="mt-8 bg-white p-8 rounded-[15px] shadow-sm border border-gray-100">
                     <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
                         <div>
-                            <h2 className="text-xl font-black text-gsps-blue">Tier Progress</h2>
+                            <h2 className="text-xl font-black text-gsps-blue">Badge Progress</h2>
                             {stats.totalPayments === 0 && (
                                 <p className="text-[10px] font-black text-orange-500 uppercase tracking-widest mb-1 italic">
                                     ⚠️ Complete 1+ payment to activate rewards
                                 </p>
                             )}
                             <p className="text-sm font-bold text-gsps-blue/40 uppercase tracking-widest">
-                                {user?.tier === 'Silver' ? `Refer ${Math.max(0, 5 - stats.referralCount)} more users to reach Gold` : `Refer ${Math.max(0, 10 - stats.referralCount)} more users to reach Diamond`}
+                                {user?.tier === 'None' || !user?.tier ? `Refer ${Math.max(0, 3 - stats.referralCount)} more users to reach Silver` :
+                                    user?.tier === 'Silver' ? `Refer ${Math.max(0, 5 - stats.referralCount)} more users to reach Gold` :
+                                        `Refer ${Math.max(0, 10 - stats.referralCount)} more users to reach Premium`}
                             </p>
                         </div>
                         <div className="mt-4 md:mt-0 px-4 py-2 bg-gsps-blue/5 rounded-xl border border-gsps-blue/10">
-                            <span className="text-xs font-black text-gsps-blue uppercase tracking-widest">Benefit: {user?.tier === 'Silver' ? '20% Discount' : '8% Discount'}</span>
+                            <span className="text-xs font-black text-gsps-blue uppercase tracking-widest">
+                                Next Reward: {user?.tier === 'None' || !user?.tier ? '5% Discount' :
+                                    user?.tier === 'Silver' ? '10% Discount' : '15% Discount'}
+                            </span>
                         </div>
                     </div>
                     <div className="w-full h-4 bg-gsps-bg-light rounded-full overflow-hidden">
                         <div
                             className="h-full bg-gsps-green transition-all duration-1000"
-                            style={{ width: `${Math.min(100, (stats.referralCount / (user?.tier === 'Silver' ? 5 : 10)) * 100)}%` }}
+                            style={{ width: `${Math.min(100, (stats.referralCount / (user?.tier === 'None' || !user?.tier ? 3 : user?.tier === 'Silver' ? 5 : 10)) * 100)}%` }}
                         ></div>
                     </div>
                 </div>

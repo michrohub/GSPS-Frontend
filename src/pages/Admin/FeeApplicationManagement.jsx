@@ -16,6 +16,7 @@ const FeeApplicationManagement = () => {
     const [feeTypes, setFeeTypes] = useState([]);
     const [showFeeTypeModal, setShowFeeTypeModal] = useState(false);
     const [newFeeType, setNewFeeType] = useState({ name: '', description: '' });
+    const [editingFeeType, setEditingFeeType] = useState(null);
 
     const fetchApplications = async () => {
         try {
@@ -51,6 +52,29 @@ const FeeApplicationManagement = () => {
             fetchFeeTypes();
         } catch (err) {
             toast.error(err.response?.data?.message || 'Error creating fee type');
+        }
+    };
+
+    const handleUpdateFeeType = async (e) => {
+        e.preventDefault();
+        try {
+            await api.put(`/fee-applications/fee-types/${editingFeeType._id}`, editingFeeType);
+            toast.success('Fee type updated successfully');
+            setEditingFeeType(null);
+            fetchFeeTypes();
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Error updating fee type');
+        }
+    };
+
+    const handleDeleteFeeType = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this fee type?')) return;
+        try {
+            await api.delete(`/fee-applications/fee-types/${id}`);
+            toast.success('Fee type deleted successfully');
+            fetchFeeTypes();
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Error deleting fee type');
         }
     };
 
@@ -116,13 +140,14 @@ const FeeApplicationManagement = () => {
             </header>
 
             <div className="bg-white rounded-[10px] shadow-sm border border-gray-100 overflow-y-auto">
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
+                <div className="overflow-y-auto">
+                    <table className="w-full text-left overflow-y-auto">
                         <thead className="bg-gsps-bg-light border-b border-gray-100">
-                            <tr>
+                            <tr className='whitespace-nowrap'>
                                 <th className="px-8 py-6 text-xs font-black text-gsps-blue/40 uppercase tracking-widest">Student</th>
                                 <th className="px-8 py-6 text-xs font-black text-gsps-blue/40 uppercase tracking-widest">Fee Details</th>
                                 <th className="px-8 py-6 text-xs font-black text-gsps-blue/40 uppercase tracking-widest">Portal Access</th>
+                                <th className="px-8 py-6 text-xs font-black text-gsps-blue/40 uppercase tracking-widest">Amount</th>
                                 <th className="px-8 py-6 text-xs font-black text-gsps-blue/40 uppercase tracking-widest">Status</th>
                                 <th className="px-8 py-6 text-xs font-black text-gsps-blue/40 uppercase tracking-widest text-right">Actions</th>
                             </tr>
@@ -134,7 +159,7 @@ const FeeApplicationManagement = () => {
                                 <tr><td colSpan="5" className="px-8 py-10 text-center font-bold text-gsps-blue/40">No applications found.</td></tr>
                             ) : (
                                 applications.map((app) => (
-                                    <tr key={app._id} className="hover:bg-gsps-bg-light/30 transition-colors">
+                                    <tr key={app._id} className="hover:bg-gsps-bg-light/30 transition-colors whitespace-nowrap">
                                         <td className="px-8 py-6">
                                             <p className="font-black text-gsps-blue">{app.user?.fullName}</p>
                                             <p className="text-xs font-bold text-gsps-blue/40">{app.user?.email}</p>
@@ -149,6 +174,9 @@ const FeeApplicationManagement = () => {
                                             <p className="text-xs font-bold text-gsps-blue/60 bg-gray-100 p-2 rounded-lg max-w-[200px] break-words">{app.portalAccess}</p>
                                         </td>
                                         <td className="px-8 py-6">
+                                            <p className="text-xs font-bold text-gsps-blue/60 bg-gray-100 p-2 rounded-lg max-w-[200px] break-words">{app.initialAmount}</p>
+                                        </td>
+                                        <td className="px-8 py-6">
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest ${app.status === 'Pending' ? 'bg-orange-500' :
                                                 app.status === 'Approved' ? 'bg-blue-500' :
                                                     app.status === 'Pending Verification' ? 'bg-purple-600' :
@@ -157,7 +185,7 @@ const FeeApplicationManagement = () => {
                                                 {app.status}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-6 text-right space-x-2">
+                                        <td className="px-8 py-6 text-right space-x-2 whitespace-nowrap">
                                             {app.status === 'Pending' && (
                                                 <button onClick={() => setSelectedApp({ ...app, action: 'Approve' })} className="px-3 py-2 bg-blue-100 text-blue-600 rounded-lg font-black text-[10px] uppercase hover:bg-blue-600 hover:text-white transition-all">Approve</button>
                                             )}
@@ -206,6 +234,31 @@ const FeeApplicationManagement = () => {
 
                             {selectedApp.action === 'Complete' && (
                                 <div className="space-y-4">
+                                    <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100 shadow-inner space-y-3">
+                                        <div className="flex justify-between items-center">
+                                            <h3 className="font-black text-gsps-blue uppercase tracking-widest text-xs">Student Profile</h3>
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest ${
+                                                selectedApp.user?.tier === 'Premium' ? 'bg-purple-600' :
+                                                selectedApp.user?.tier === 'Gold' ? 'bg-yellow-500' :
+                                                selectedApp.user?.tier === 'Silver' ? 'bg-gray-500' : 'bg-gsps-blue/20 text-gsps-blue'
+                                            }`}>
+                                                Badge: {selectedApp.user?.tier || 'None'}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between items-center text-xs font-bold text-gsps-blue/60">
+                                            <span>Suggested Discount:</span>
+                                            <span className="font-black text-gsps-green">
+                                                {selectedApp.user?.tier === 'Premium' ? '15%' :
+                                                 selectedApp.user?.tier === 'Gold' ? '10%' :
+                                                 selectedApp.user?.tier === 'Silver' ? '5%' : '0%'}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between items-center text-xs font-bold text-gsps-blue/60">
+                                            <span>Initial Amount:</span>
+                                            <span className="font-black text-gsps-blue">${selectedApp.initialAmount}</span>
+                                        </div>
+                                    </div>
+
                                     {selectedApp.payment && (
                                         <div className="bg-gsps-bg-light p-6 rounded-2xl space-y-4 border border-gray-100 shadow-inner">
                                             <h3 className="font-black text-gsps-blue uppercase tracking-widest text-xs">Payment Details</h3>
@@ -257,30 +310,59 @@ const FeeApplicationManagement = () => {
                         </div>
 
                         <div className="p-4 overflow-y-auto space-y-8">
-                            {/* Create New Fee Type Form */}
-                            <form onSubmit={handleCreateFeeType} className="bg-gsps-bg-light p-6 rounded-[10px] space-y-4">
-                                <h3 className="font-black text-gsps-blue uppercase tracking-widest text-xs">Create New Type</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input
-                                        type="text"
-                                        placeholder="Name (e.g. Visa Fee)"
-                                        value={newFeeType.name}
-                                        onChange={(e) => setNewFeeType({ ...newFeeType, name: e.target.value })}
-                                        required
-                                        className="px-4 py-3 rounded-xl border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue"
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Description (optional)"
-                                        value={newFeeType.description}
-                                        onChange={(e) => setNewFeeType({ ...newFeeType, description: e.target.value })}
-                                        className="px-4 py-3 rounded-xl border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue"
-                                    />
-                                </div>
-                                <button type="submit" className="w-full bg-gsps-blue text-white py-3 rounded-xl font-black hover:bg-gsps-green transition-all shadow-lg">
-                                    Add Fee Type
-                                </button>
-                            </form>
+                            {/* Create/Edit Fee Type Form */}
+                            {editingFeeType ? (
+                                <form onSubmit={handleUpdateFeeType} className="bg-blue-50 p-6 rounded-[10px] space-y-4 border-2 border-blue-200">
+                                    <div className="flex justify-between items-center">
+                                        <h3 className="font-black text-blue-600 uppercase tracking-widest text-xs">Edit Fee Type</h3>
+                                        <button type="button" onClick={() => setEditingFeeType(null)} className="text-blue-400 hover:text-blue-600 font-bold text-xs">Cancel</button>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <input
+                                            type="text"
+                                            placeholder="Name"
+                                            value={editingFeeType.name}
+                                            onChange={(e) => setEditingFeeType({ ...editingFeeType, name: e.target.value })}
+                                            required
+                                            className="px-4 py-3 rounded-xl border-2 border-transparent focus:border-blue-400 outline-none font-bold text-gsps-blue"
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Description"
+                                            value={editingFeeType.description}
+                                            onChange={(e) => setEditingFeeType({ ...editingFeeType, description: e.target.value })}
+                                            className="px-4 py-3 rounded-xl border-2 border-transparent focus:border-blue-400 outline-none font-bold text-gsps-blue"
+                                        />
+                                    </div>
+                                    <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-xl font-black hover:bg-blue-700 transition-all shadow-lg">
+                                        Update Fee Type
+                                    </button>
+                                </form>
+                            ) : (
+                                <form onSubmit={handleCreateFeeType} className="bg-gsps-bg-light p-6 rounded-[10px] space-y-4">
+                                    <h3 className="font-black text-gsps-blue uppercase tracking-widest text-xs">Create New Type</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <input
+                                            type="text"
+                                            placeholder="Name (e.g. Visa Fee)"
+                                            value={newFeeType.name}
+                                            onChange={(e) => setNewFeeType({ ...newFeeType, name: e.target.value })}
+                                            required
+                                            className="px-4 py-3 rounded-xl border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue"
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Description (optional)"
+                                            value={newFeeType.description}
+                                            onChange={(e) => setNewFeeType({ ...newFeeType, description: e.target.value })}
+                                            className="px-4 py-3 rounded-xl border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue"
+                                        />
+                                    </div>
+                                    <button type="submit" className="w-full bg-gsps-blue text-white py-3 rounded-xl font-black hover:bg-gsps-green transition-all shadow-lg">
+                                        Add Fee Type
+                                    </button>
+                                </form>
+                            )}
 
                             {/* Existing Fee Types List */}
                             <div className="space-y-4">
@@ -288,11 +370,27 @@ const FeeApplicationManagement = () => {
                                 <div className="grid grid-cols-1 gap-3">
                                     {feeTypes.map(type => (
                                         <div key={type._id} className="flex items-center justify-between p-4 rounded-2xl border border-gray-100 hover:shadow-md transition-all">
-                                            <div>
+                                            <div className="flex-1">
                                                 <p className="font-black text-gsps-blue">{type.name}</p>
                                                 <p className="text-xs font-bold text-gsps-blue/40">{type.description || 'No description'}</p>
                                             </div>
-                                            <span className="text-[10px] font-black text-gsps-green bg-gsps-green/10 px-2 py-1 rounded-md uppercase">Active</span>
+                                            <div className="flex items-center gap-2">
+                                                <button 
+                                                    onClick={() => setEditingFeeType(type)}
+                                                    className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                                                    title="Edit"
+                                                >
+                                                    ✏️
+                                                </button>
+                                                <button 
+                                                    onClick={() => handleDeleteFeeType(type._id)}
+                                                    className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                                                    title="Delete"
+                                                >
+                                                    🗑️
+                                                </button>
+                                                <span className="text-[10px] font-black text-gsps-green bg-gsps-green/10 px-2 py-1 rounded-md uppercase shrink-0">Active</span>
+                                            </div>
                                         </div>
                                     ))}
                                     {feeTypes.length === 0 && (

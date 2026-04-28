@@ -78,8 +78,8 @@ const Service = () => {
     };
 
     const handleWhatsApp = (appId) => {
-        const message = `Hello GSPS Support, I need help with my Fee Application ID: ${appId}`;
-        window.open(`https://t.me/GSPS26?text=${encodeURIComponent(message)}`, '_blank');
+        const message = `Hello GSPS Support`;
+        window.open(`https://t.me/Gsps2026?text=${encodeURIComponent(message)}`, '_blank');
     };
 
     const getStatusColor = (status) => {
@@ -272,7 +272,7 @@ const Service = () => {
                     </div>
                 </div>
                 <a
-                    href="https://t.me/GSPS26"
+                    href="https://t.me/Gsps2026"
                     target="_blank"
                     rel="noreferrer"
                     className="bg-gsps-green text-white px-10 py-4 rounded-2xl font-black text-lg hover:bg-white hover:text-gsps-blue transition-all shadow-xl flex items-center gap-2"
@@ -342,17 +342,16 @@ const Service = () => {
                             <div className="bg-gsps-blue/5 p-6 rounded-2xl border-2 border-gsps-blue/10 space-y-4">
                                 <div className="flex items-center justify-between">
                                     <div className='flex flex-col items-center justify-center w-full'>
-                                        <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest">Original Amount</p>
-                                        <p className="text-xl font-bold text-gsps-blue/40 line-through">${selectedApp?.finalAmount}</p>
-                                        <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest mt-2">Your Discounted Price ({user?.tier})</p>
+                                        <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest">Payable Amount</p>
                                         <p className="text-[48px] font-black text-gsps-green leading-none">
-                                            ${(selectedApp?.finalAmount * (1 - (user?.tier === 'Diamond' ? 0.30 : user?.tier === 'Gold' ? 0.25 : 0.20))).toFixed(2)}
+                                            ${selectedApp?.finalAmount}
                                         </p>
+                                        <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest mt-4">Badge Applied</p>
+                                        <p className="text-sm font-black text-gsps-blue uppercase tracking-widest">{user?.tier || 'None'}</p>
                                     </div>
-
                                 </div>
                                 <p className="text-sm font-bold text-center italic">
-                                    According to your badge, the applicable discount has been duly adjusted. Kindly purchase cryptocurrency using your local currency and complete the payment accordingly.
+                                    The payable amount above has been manually calculated and approved by the admin based on your current badge.
                                 </p>
                             </div>
 

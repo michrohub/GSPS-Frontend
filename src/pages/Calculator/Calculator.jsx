@@ -7,9 +7,9 @@ const Calculator = () => {
   const [error, setError] = useState("");
 
   const tiers = {
-    Silver: { discount: 0.20, icon: <FaShieldAlt className="text-gray-400" />, color: "border-gray-200 bg-gray-50/50" },
-    Gold: { discount: 0.25, icon: <FaMedal className="text-yellow-500" />, color: "border-yellow-200 bg-yellow-50/50" },
-    Diamond: { discount: 0.30, icon: <FaGem className="text-blue-500" />, color: "border-blue-200 bg-blue-50/50" },
+    Silver: { discount: 0.05, icon: <FaShieldAlt className="text-slate-400" />, color: "border-slate-200 bg-slate-50/50" },
+    Gold: { discount: 0.10, icon: <FaMedal className="text-yellow-500" />, color: "border-yellow-200 bg-yellow-50/50" },
+    Premium: { discount: 0.15, icon: <FaMedal className="text-purple-500" />, color: "border-purple-200 bg-purple-50/50" },
   };
 
   const [results, setResults] = useState({

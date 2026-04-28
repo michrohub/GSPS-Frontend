@@ -34,8 +34,8 @@ const UserManagement = () => {
 
             <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         placeholder="Search by name or email..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -43,9 +43,9 @@ const UserManagement = () => {
                     />
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
                 </div>
-                
+
                 <div className="flex gap-4 w-full md:w-auto">
-                    <select 
+                    {/* <select
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
                         className="flex-1 md:flex-none px-4 py-4 rounded-[10px] border border-gray-100 font-bold text-sm outline-none bg-white shadow-sm"
@@ -53,17 +53,18 @@ const UserManagement = () => {
                         <option value="">All Roles</option>
                         <option value="student">Students</option>
                         <option value="admin">Admins</option>
-                    </select>
+                    </select> */}
 
-                    <select 
+                    <select
                         value={tier}
                         onChange={(e) => setTier(e.target.value)}
                         className="flex-1 md:flex-none px-4 py-4 rounded-[10px] border border-gray-100 font-bold text-sm outline-none bg-white shadow-sm"
                     >
-                        <option value="">All Tiers</option>
+                        <option value="">All Badge</option>
+                        <option value="None">No Badge</option>
                         <option value="Silver">Silver</option>
                         <option value="Gold">Gold</option>
-                        <option value="Diamond">Diamond</option>
+                        <option value="Premium">Premium</option>
                     </select>
                 </div>
             </div>
@@ -71,12 +72,12 @@ const UserManagement = () => {
 
             <div className="bg-white rounded-[10px] shadow-sm border border-gray-100 overflow-y-auto mb-[40px]">
                 <table className="w-full text-left">
-                        <thead className="bg-[#003b73] border-b border-gray-100 ">
+                    <thead className="bg-[#003b73] border-b border-gray-100 ">
                         <tr className='whitespace-nowrap'>
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Full Name</th>
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Email</th>
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">KYC Status</th>
-                            <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Tier</th>
+                            <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Badge</th>
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Referrals</th>
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">Wallet</th>
                             <th className="px-8 py-5 text-xs font-black text-white  tracking-widest">T&C Status</th>
@@ -90,22 +91,20 @@ const UserManagement = () => {
                                 <td className="px-8 py-5 font-black text-gsps-blue">{u.fullName}</td>
                                 <td className="px-8 py-5 font-bold text-sm text-gsps-blue/60">{u.email}</td>
                                 <td className="px-8 py-5">
-                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${
-                                        u.kycStatus === 'approved' ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'
-                                    }`}>{u.kycStatus}</span>
+                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${u.kycStatus === 'approved' ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'
+                                        }`}>{u.kycStatus}</span>
                                 </td>
                                 <td className="px-8 py-5">
-                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${
-                                        u.tier === 'Diamond' ? 'bg-purple-100 text-purple-600' : 
-                                        u.tier === 'Gold' ? 'bg-yellow-100 text-yellow-600' : 'bg-gray-100 text-gray-600'
-                                    }`}>{u.tier || 'Silver'}</span>
+                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${u.tier === 'Premium' ? 'bg-purple-100 text-purple-600' :
+                                        u.tier === 'Gold' ? 'bg-yellow-100 text-yellow-600' :
+                                            u.tier === 'Silver' ? 'bg-gray-100 text-gray-600' : 'bg-gray-100 text-gray-400'
+                                        }`}>{u.tier || 'None'}</span>
                                 </td>
                                 <td className="px-8 py-5 font-black text-gsps-blue">{u.referralCount || 0}</td>
                                 <td className="px-8 py-5 font-black text-gsps-blue">${u.walletBalance.toFixed(2)}</td>
                                 <td className="px-8 py-5">
-                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${
-                                        u.termsAccepted ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
-                                    }`}>
+                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${u.termsAccepted ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                                        }`}>
                                         {u.termsAccepted ? 'Accepted' : 'Pending'}
                                     </span>
                                 </td>
