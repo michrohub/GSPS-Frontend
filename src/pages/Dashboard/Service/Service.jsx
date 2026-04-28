@@ -342,8 +342,12 @@ const Service = () => {
                             <div className="bg-gsps-blue/5 p-6 rounded-2xl border-2 border-gsps-blue/10 space-y-4">
                                 <div className="flex items-center justify-between">
                                     <div className='flex flex-col items-center justify-center w-full'>
-                                        <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest">Amount to Pay</p>
-                                        <p className="text-[40px] font-black text-gsps-green">{selectedApp?.finalAmount}</p>
+                                        <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest">Original Amount</p>
+                                        <p className="text-xl font-bold text-gsps-blue/40 line-through">${selectedApp?.finalAmount}</p>
+                                        <p className="text-[10px] font-black text-gsps-blue/40 uppercase tracking-widest mt-2">Your Discounted Price ({user?.tier})</p>
+                                        <p className="text-[48px] font-black text-gsps-green leading-none">
+                                            ${(selectedApp?.finalAmount * (1 - (user?.tier === 'Diamond' ? 0.30 : user?.tier === 'Gold' ? 0.25 : 0.20))).toFixed(2)}
+                                        </p>
                                     </div>
 
                                 </div>

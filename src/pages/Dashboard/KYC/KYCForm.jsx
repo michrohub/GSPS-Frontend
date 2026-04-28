@@ -149,7 +149,7 @@ const KYCForm = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-xs font-black text-gsps-blue/40  tracking-widest ml-1">Student Name</label>
+                            <label className="text-xs font-black text-gsps-blue/40  tracking-widest ml-1">Full Name</label>
                             <input type="text" name="studentName" value={formData.studentName} placeholder="John Doe" onChange={handleChange} required className="w-full px-6 py-4 rounded-[10px] bg-gsps-bg-light border-2 border-transparent focus:border-gsps-green/30 outline-none font-bold text-gsps-blue mt-[10px]" />
                         </div>
                         <div className="space-y-2">

@@ -47,11 +47,25 @@ const Overview = () => {
         fetchDashboardData();
     }, [user]);
 
+    const [copied, setCopied] = useState(false);
+
+    async function handleCopy() {
+        try {
+            await navigator.clipboard.writeText(user?.referralCode || "");
+            setCopied(true);
+
+            setTimeout(() => {
+                setCopied(false);
+            }, 2000);
+        } catch (err) {
+            console.error("Failed to copy:", err);
+        }
+    }
+
     if (loading) return <div className="animate-pulse space-y-8">
         <div className="h-40 bg-white rounded-3xl"></div>
         <div className="h-80 bg-white rounded-3xl"></div>
     </div>;
-
     return (
         <div className="">
             <header className="mb-6">
@@ -191,7 +205,12 @@ const Overview = () => {
                         </div>
                         <div className="bg-white/10 p-4 rounded-2xl border border-white/10 flex items-center justify-between">
                             <span className="font-mono font-bold text-gsps-green">{user?.referralCode}</span>
-                            <button className="text-xs font-black uppercase tracking-widest bg-white text-gsps-blue px-4 py-2 rounded-xl hover:scale-105 transition-all">Copy</button>
+                            <button
+                                onClick={handleCopy}
+                                className="text-xs font-black uppercase tracking-widest bg-white text-gsps-blue px-4 py-2 rounded-xl hover:scale-105 transition-all"
+                            >
+                                {copied ? "Copied!" : "Copy"}
+                            </button>
                         </div>
                         <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] text-center italic">Total referrals: {stats.referralCount}</p>
                     </div>
