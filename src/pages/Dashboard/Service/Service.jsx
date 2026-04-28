@@ -4,6 +4,8 @@ import { useAuth } from '../../../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { FaCopy, FaTelegram, FaCheckCircle, FaExclamationTriangle, FaTelegramPlane } from 'react-icons/fa';
+import ImageUpload from '../../../components/Common/ImageUpload';
+import { getOptimizedUrl } from '../../../services/cloudinaryService';
 
 import QR_USDT_BNB_20 from '../../../../public/USDT-BNB_20.jpg';
 import QR_USDT_SOL from '../../../../public/USDT-SOL.jpg';
@@ -12,6 +14,7 @@ import QR_USDT_TRC_20 from '../../../../public/USDT-TRC-20.jpg';
 const Service = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const BASE_URL = import.meta.env.VITE_API_URL;
     const [applications, setApplications] = useState([]);
     const [feeTypes, setFeeTypes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -21,7 +24,7 @@ const Service = () => {
     const [submitting, setSubmitting] = useState(false);
     const [payMethod, setPayMethod] = useState('USDT-BNB20');
     const [txId, setTxId] = useState('');
-    const [screenshot, setScreenshot] = useState(null);
+    const [screenshotUrl, setScreenshotUrl] = useState('');
 
     const [formData, setFormData] = useState({
         feeTypeId: '',
@@ -101,27 +104,26 @@ const Service = () => {
 
     const handlePaySubmit = async (e) => {
         e.preventDefault();
-        if (!txId || !screenshot) {
+        if (!txId || !screenshotUrl) {
             return toast.error('Please provide Transaction ID and Screenshot');
         }
         setSubmitting(true);
         try {
-            const data = new FormData();
-            data.append('applicationId', selectedApp._id);
-            data.append('transactionId', txId);
-            data.append('paymentType', selectedApp.feeTypeName);
-            data.append('amount', selectedApp.finalAmount || selectedApp.initialAmount || 0);
-            data.append('currency', 'GBP');
-            data.append('purpose', `Payment for ${selectedApp.feeTypeName}`);
-            data.append('invoice', screenshot);
+            const payload = {
+                applicationId: selectedApp._id,
+                transactionId: txId,
+                paymentType: selectedApp.feeTypeName,
+                amount: selectedApp.finalAmount || selectedApp.initialAmount || 0,
+                currency: 'GBP',
+                purpose: `Payment for ${selectedApp.feeTypeName}`,
+                screenshotUrl: screenshotUrl
+            };
 
-            await api.post('/payments/request', data, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
+            await api.post('/payments/request', payload);
             toast.success('Payment submitted for verification');
             setShowPayModal(false);
             setTxId('');
-            setScreenshot(null);
+            setScreenshotUrl('');
             fetchApplications();
         } catch (err) {
             toast.error(err.response?.data?.message || 'Error submitting payment');
@@ -200,8 +202,8 @@ const Service = () => {
 
                                             {app.status === 'Completed' ? (
                                                 <a
-                                                    href={`https://api.gsps.online${app?.invoiceUrl}`}
-                                                    // href={`http://localhost:5000${app?.invoiceUrl}`}
+
+                                                    href={`${BASE_URL}${app?.invoiceUrl}`}
                                                     target="_blank"
                                                     rel="noreferrer"
                                                     className="bg-gsps-blue text-white px-4 py-2 rounded-xl font-black text-xs hover:bg-gsps-green transition-all shadow-md flex items-center gap-2"
@@ -407,21 +409,11 @@ const Service = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-gsps-blue/40 uppercase tracking-widest ml-1">Upload Screenshot</label>
-                                    <input
-                                        type="file"
-                                        id="pay-screenshot"
-                                        className="hidden"
-                                        onChange={(e) => setScreenshot(e.target.files[0])}
-                                        required
+                                    <ImageUpload
+                                        label="Upload Screenshot"
+                                        onUploadSuccess={(res) => setScreenshotUrl(res.secure_url)}
+                                        required={true}
                                     />
-                                    <label
-                                        htmlFor="pay-screenshot"
-                                        className="flex items-center justify-between px-6 py-4 rounded-2xl bg-gsps-bg-light border-2 border-dashed border-gray-200 cursor-pointer hover:border-gsps-green/50 transition-all"
-                                    >
-                                        <span className="text-sm font-bold text-gsps-blue/40">{screenshot ? screenshot.name : 'Choose payment screenshot'}</span>
-                                        <div className="w-10 h-10 bg-gsps-blue/5 rounded-xl flex items-center justify-center text-gsps-blue">📷</div>
-                                    </label>
                                 </div>
                                 <button
                                     type="submit"

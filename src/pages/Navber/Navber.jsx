@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { getOptimizedUrl } from "../../services/cloudinaryService";
 
 const Navber = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,7 +81,7 @@ const Navber = () => {
                   aria-expanded={dropdownOpen}
                 >
                   {user.profileImage ? (
-                    <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                    <img src={getOptimizedUrl(user.profileImage, { width: 48, height: 48 })} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
                     user.fullName?.charAt(0) || "U"
                   )}

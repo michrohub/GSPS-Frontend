@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { updateProfile, changePassword } from '../../services/api';
 import { toast } from 'react-hot-toast';
+import ImageUpload from '../../components/Common/ImageUpload';
+import { getOptimizedUrl } from '../../services/cloudinaryService';
 
 const Profile = () => {
     const { user, setUser } = useAuth();
@@ -10,7 +12,7 @@ const Profile = () => {
 
     // Profile Update State
     const [fullName, setFullName] = useState(user?.fullName || '');
-    const [profileImage, setProfileImage] = useState(null);
+    const [profileImageUrl, setProfileImageUrl] = useState(user?.profileImage || '');
     const [previewUrl, setPreviewUrl] = useState(user?.profileImage || null);
 
     // Password Update State
@@ -31,14 +33,12 @@ const Profile = () => {
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const formData = new FormData();
-        formData.append('fullName', fullName);
-        if (profileImage) {
-            formData.append('profileImage', profileImage);
-        }
-
+        
         try {
-            const res = await updateProfile(formData);
+            const res = await updateProfile({
+                fullName,
+                profileImageUrl
+            });
             setUser(prev => ({ ...prev, ...res.data.user }));
             toast.success('Profile updated successfully');
         } catch (err) {
@@ -84,21 +84,12 @@ const Profile = () => {
                 <div className="lg:col-span-2 space-y-8">
                     <form onSubmit={handleProfileUpdate} className="bg-white p-8 rounded-[10px] shadow-sm border border-gray-100 space-y-8">
                         <div className="flex flex-col md:flex-row items-center gap-8">
-                            <div className="relative group">
-                                <div className="w-32 h-32 rounded-3xl overflow-hidden bg-gsps-bg-light border-4 border-white shadow-xl">
-                                    {previewUrl ? (
-                                        <img src={previewUrl} alt="Avatar" className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-4xl font-black text-gsps-blue/20">
-                                            {fullName?.charAt(0)}
-                                        </div>
-                                    )}
+                                <div className="w-48">
+                                    <ImageUpload 
+                                        onUploadSuccess={(res) => setProfileImageUrl(res.secure_url)}
+                                        acceptedTypes="image/*"
+                                    />
                                 </div>
-                                <label className="absolute inset-0 flex items-center justify-center bg-gsps-blue/60 text-white opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl cursor-pointer text-xs font-black uppercase tracking-widest">
-                                    Change
-                                    <input type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
-                                </label>
-                            </div>
                             <div className="flex-1 space-y-2 text-center md:text-left">
                                 <h3 className="text-2xl font-black text-gsps-blue">{user?.fullName}</h3>
                                 <p className="text-gsps-blue/40 font-bold">{user?.email}</p>

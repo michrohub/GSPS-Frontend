@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../services/api';
+import { getOptimizedUrl } from '../../services/cloudinaryService';
 
 const KYCManagement = () => {
     const [kycs, setKycs] = useState([]);
@@ -153,7 +154,7 @@ const KYCManagement = () => {
                                                 <a key={key} href={`${val}`} target="_blank" rel="noreferrer" className="block p-4 bg-gsps-bg-light rounded-2xl hover:bg-gsps-green/5 transition-all text-center group">
                                                     {isImage ? (
                                                         <div className="h-24 w-full mb-3 rounded-lg overflow-hidden border border-gray-200">
-                                                            <img src={`${val}`} alt={key} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                                                            <img src={getOptimizedUrl(val, { width: 300, height: 300 })} alt={key} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                                                         </div>
                                                     ) : (
                                                         <span className="text-3xl block mb-2 opacity-50">📄</span>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import api from '../../../services/api';
+import ImageUpload from '../../../components/Common/ImageUpload';
 
 const KYCForm = () => {
     const { user, checkAuth } = useAuth();
@@ -15,11 +16,11 @@ const KYCForm = () => {
         whatsappNumber: ''
     });
     const [files, setFiles] = useState({
-        studentPhoto: null,
-        passportFile: null,
-        visaFile: null,
-        universityDocument: null,
-        gobDocument: null
+        studentPhoto: '',
+        passportFile: '',
+        visaFile: '',
+        universityDocument: '',
+        gobDocument: ''
     });
 
     useEffect(() => {
@@ -52,16 +53,13 @@ const KYCForm = () => {
         setSubmitting(true);
         setError('');
 
-        const data = new FormData();
-        Object.keys(formData).forEach(key => data.append(key, formData[key]));
-        Object.keys(files).forEach(key => {
-            if (files[key]) data.append(key, files[key]);
-        });
+        const payload = {
+            ...formData,
+            ...files
+        };
 
         try {
-            await api.post('/kyc/submit', data, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
+            await api.post('/kyc/submit', payload);
             setStatus('pending');
             await checkAuth(); // Refresh user state
         } catch (err) {
@@ -164,43 +162,19 @@ const KYCForm = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
-                            { label: 'Photo', name: 'studentPhoto', required: true, accept: '.jpg,.jpeg,.png,.pdf' },
-                            { label: 'Passport File', name: 'passportFile', required: true, accept: '.jpg,.jpeg,.png,.pdf' },
-                            { label: 'Visa File', name: 'visaFile', required: true, accept: '.jpg,.jpeg,.png,.pdf' },
-                            { label: 'University Document', name: 'universityDocument', required: true, accept: '.jpg,.jpeg,.png,.pdf' },
-                            { label: 'GOV Document', name: 'gobDocument', required: true, accept: '.jpg,.jpeg,.png,.pdf' }
+                            { label: 'Photo', name: 'studentPhoto', required: true },
+                            { label: 'Passport File', name: 'passportFile', required: true },
+                            { label: 'Visa File', name: 'visaFile', required: true },
+                            { label: 'University Document', name: 'universityDocument', required: true },
+                            { label: 'GOV Document', name: 'gobDocument', required: true }
                         ].map((doc) => (
-                            <div key={doc.name} className="space-y-3">
-                                <label className="text-xs font-black text-gsps-blue/40  tracking-widest ml-1 ">{doc.label}</label>
-                                <div className="relative h-40 group cursor-pointer mt-[10px]">
-                                    <input
-                                        type="file"
-                                        name={doc.name}
-                                        accept={doc.accept}
-                                        onChange={handleFileChange}
-                                        required={doc.required}
-                                        className="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer"
-                                    />
-                                    <div className="absolute inset-0 bg-gsps-bg-light border-2 border-dashed border-gray-200 rounded-[10px] flex flex-col items-center justify-center group-hover:bg-gsps-green/5 group-hover:border-gsps-green transition-all overflow-hidden p-2">
-                                        {files[doc.name] ? (
-                                            files[doc.name].type.startsWith('image/') ? (
-                                                <img src={URL.createObjectURL(files[doc.name])} alt="preview" className="h-full w-full object-cover rounded-2xl" />
-                                            ) : (
-                                                <div className="text-center flex flex-col items-center">
-                                                    <span className="text-4xl">📄</span>
-                                                    <span className="text-xs font-bold mt-2 truncate w-full px-4 text-gsps-blue">{files[doc.name].name}</span>
-                                                </div>
-                                            )
-                                        ) : (
-                                            <>
-                                                <span className="text-2xl mb-2 opacity-40 group-hover:scale-110 transition-transform">📄</span>
-                                                <span className="text-xs font-bold text-gsps-blue/40 group-hover:text-gsps-blue text-center">
-                                                    Choose File or Drag & Drop<br />(JPG, PNG, PDF)
-                                                </span>
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
+                            <div key={doc.name} className="space-y-1">
+                                <ImageUpload 
+                                    label={doc.label}
+                                    onUploadSuccess={(res) => setFiles(prev => ({ ...prev, [doc.name]: res.secure_url }))}
+                                    required={doc.required}
+                                    acceptedTypes=".jpg,.jpeg,.png,.webp,.pdf"
+                                />
                             </div>
                         ))}
                     </div>
