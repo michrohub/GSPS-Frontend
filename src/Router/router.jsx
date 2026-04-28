@@ -27,6 +27,7 @@ import UserManagement from "../pages/Admin/UserManagement.jsx";
 import Analytics from "../pages/Admin/Analytics.jsx";
 import LiveChat from "../pages/Admin/LiveChat.jsx";
 import FeeApplicationManagement from "../pages/Admin/FeeApplicationManagement.jsx";
+import WalletManagement from "../pages/Admin/WalletManagement.jsx";
 
 // New Pages
 import Terms from "../pages/Dashboard/Terms.jsx";
@@ -124,6 +125,7 @@ const router = createBrowserRouter([
       { path: "analytics", element: <Analytics /> },
       { path: "chat", element: <LiveChat /> },
       { path: "service", element: <FeeApplicationManagement /> },
+      { path: "wallet", element: <WalletManagement /> },
     ]
   }
 ]);

@@ -39,7 +39,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         { name: 'Payments list', path: '/admin/payments', icon: FaMoneyBillWave },
         { name: 'User Management', path: '/admin/users', icon: FaUsers },
         { name: 'Fee Applications', path: '/admin/service', icon: FaFileContract },
-
+        { name: 'Wallet Management', path: '/admin/wallet', icon: FaMoneyBillWave },
         { name: 'Live Chat', path: '/admin/chat', icon: FaComments },
     ];
 

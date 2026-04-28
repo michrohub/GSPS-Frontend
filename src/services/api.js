@@ -28,4 +28,11 @@ api.interceptors.request.use(
 export const updateProfile = (data) => api.put('/user/profile', data);
 export const changePassword = (data) => api.put('/user/change-password', data);
 
+// Wallet
+export const requestWithdrawal = (data) => api.post('/wallet/withdraw', data);
+export const requestDeposit = (data) => api.post('/wallet/deposit', data);
+export const getMyTransactions = () => api.get('/wallet/my-transactions');
+export const adminGetTransactions = () => api.get('/wallet/admin/transactions');
+export const adminUpdateTransactionStatus = (id, data) => api.put(`/wallet/admin/transactions/${id}/status`, data);
+
 export default api;
